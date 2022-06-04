@@ -161,7 +161,7 @@
 .select2-container--default .select2-selection--single {
   background-color: #f0f0f0;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 0px;
+  border-radius: 2px;
 }
 /* line 6, ../scss/theme/default/_single.scss */
 .select2-container--default .select2-selection--single:focus {
@@ -230,7 +230,8 @@
 .select2-container--default .select2-selection--multiple {
   background-color: #f0f0f0;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 0px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
   cursor: text;
 }
 /* line 7, ../scss/theme/default/_multiple.scss */

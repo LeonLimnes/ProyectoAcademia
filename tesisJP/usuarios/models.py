@@ -3,7 +3,7 @@ from bases.models import ClaseModelo
 from django.contrib.auth.models import AbstractUser
 from django.conf.global_settings import MEDIA_URL, STATIC_URL
 from django.urls import reverse
-from pedagogica.models import Asignatura
+from pedagogica.models import Subject
 from crum import get_current_request
 
 # Create your models here.
@@ -23,9 +23,18 @@ class User(AbstractUser):
     matricula=models.CharField(max_length=10, blank=True, null=True)
 
 
-    
+    asignaturas= models.ManyToManyField(
+        Subject, blank=True, related_name="UserAsg"
+    )
+
+    def get_absolute_url(self):
+        return reverse('usuarios:usuarios_list')
+
+    def _str_(self):
+        return str(self.first_name)
+
     def get_image(slef):
-        if self.image:
+        if self.imagen:
             return '{}{}'. format (MEDIA_URL, self.image)
         return '{}{}'. format(STATIC_URL,'img/empty.png' )
 
@@ -39,6 +48,8 @@ class User(AbstractUser):
         except:
             pass
 
+    class Meta:
+        verbose_name_plural='Docentes'
 
-    def get_absolute_url(self):
-        return reverse('usuarios:usuarios_list')
+
+

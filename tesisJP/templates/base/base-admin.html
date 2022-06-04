@@ -50,12 +50,6 @@
   <!-- Stateface CSS(font) -->
   <link rel="stylesheet" type="text/css" href="{% static 'Admin-new/assets/fonts/stateface/stateface.css' %}">
 
-
-   <!-- Plugin CSS  -->
-   <!--<link rel="stylesheet" type="text/css" href="{% static 'Admin-new/vendor/plugins/fullcalendar/fullcalendar.min.css' %}" media="screen">-->
-   <link rel="stylesheet" type="text/css" href="{% static 'Admin-new/vendor/plugins/magnific/magnific-popup.css' %}">
-   <link rel="stylesheet" type="text/css" href="{% static 'Admin-new/vendor/plugins/fullcalendar/lib/main.css' %}">
-
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -63,7 +57,6 @@
     <![endif]-->
 
 </head>
-
 
 <body class="dashboard-page sb-l-o sb-r-c">
 
@@ -335,6 +328,15 @@
         <ul class="nav sidebar-menu">
           <li class="sidebar-label pt20">Menu</li>
           <li>
+            <a href="pages_calendar.html">
+              <span class="fa fa-calendar"></span>
+              <span class="sidebar-title">Calendar</span>
+              <span class="sidebar-title-tray">
+                <span class="label label-xs bg-primary">New</span>
+              </span>
+            </a>
+          </li>
+          <li>
             <a href="{% url 'pedagogica:plan_list' %}">
               <span class="glyphicon glyphicon-book"></span>
               <span class="sidebar-title">Documentacion</span>
@@ -358,20 +360,92 @@
               <li>
                 <a href="{% url 'usuarios:usuarios_list' %}">
                   <span class="glyphicon glyphicon-book"></span> Listar Usuarios </a>
-              </li>           
+              </li>              
             </ul>
           </li>
           <li>
             <a class="accordion-toggle" href="#">
-              <span class="glyphicon glyphicon-fire"></span>
+              <span class="glyphicon glyphicon-book"></span>
               <span class="sidebar-title">Pedagogica</span>
               <span class="caret"></span>
             </a>
             <ul class="nav sub-nav">
-              <li>
-                <a href="{% url 'pedagogica:plan_list' %}">
-                  <span class="glyphicon glyphicon-book"></span> Plan de Estudio </a>
-              </li>
+                <li>
+                    <a class="accordion-toggle" href="#">
+                        <span class="glyphicon glyphicon-book"></span>
+                        <span class="sidebar-title">Planes de estudio</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="nav sub-nav">
+                        <li>
+                            <a href="{% url 'roadmap_create' %}">
+                                <span class="glyphicon glyphicon-plus"></span> Crear Plan de estudio
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'roadmap_list' %}">
+                                <span class="glyphicon glyphicon-eye-open"></span> Ver Planes de estudio
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="accordion-toggle" href="#">
+                        <span class="glyphicon glyphicon-check"></span>
+                        <span class="sidebar-title">Ejes</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="nav sub-nav">
+                        <li>
+                            <a href="{% url 'axis_create' %}">
+                                <span class="glyphicon glyphicon-plus"></span> Crear Eje
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'axis_list' %}">
+                                <span class="glyphicon glyphicon-eye-open"></span> Ver Ejes
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="accordion-toggle" href="#">
+                        <span class="glyphicon glyphicon-check"></span>
+                        <span class="sidebar-title">Asignaturas</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="nav sub-nav">
+                        <li>
+                            <a href="{% url 'subject_create' %}">
+                                <span class="glyphicon glyphicon-plus"></span> Crear Asignatura
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'subject_list' %}">
+                                <span class="glyphicon glyphicon-eye-open"></span> Ver Asignaturas
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="accordion-toggle" href="#">
+                        <span class="glyphicon glyphicon-check"></span>
+                        <span class="sidebar-title">Carreras</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="nav sub-nav">
+                        <li>
+                            <a href="{% url 'major_create' %}">
+                                <span class="glyphicon glyphicon-plus"></span> Crear Carrera
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'major_list' %}">
+                                <span class="glyphicon glyphicon-eye-open"></span> Ver Carreras
+                            </a>
+                        </li>
+                    </ul>
+                </li>
               <li>
                 <a href="{% url 'bases:home' %}">
                   <span class="glyphicon glyphicon-modal-window"></span> Programa de Estudio </a>
@@ -379,53 +453,43 @@
               
             </ul>
           </li>
+
           <li>
             <a class="accordion-toggle" href="#">
-              <span class="glyphicon glyphicon-duplicate"></span>
+              <span class="glyphicon glyphicon-check"></span>
               <span class="sidebar-title">Academica</span>
               <span class="caret"></span>
             </a>
             <ul class="nav sub-nav">
+              {% if perms.academica.view_grupo %}
               <li>
-                <a class="accordion-toggle" href="#">
-                  <span class="fa fa-gears"></span> Control_Docente
-                  <span class="caret"></span>
-                </a>
-                <ul class="nav sub-nav">
-                  <li>
-                    <a href="{% url 'academica:docente_list'%}">
-                      <span class="fa fa-archive"></span>
-                      <span class="sidebar-title"> Docentes</span>
-                    </a>
-                  </li>
-                  <li>
                 <a href="{% url 'academica:grupo_list'%}">
-                  <span class="glyphicon glyphicon-edit"></span> Grupos </a>
+                  <span class="glyphicon glyphicon-edit"></span> Admin Grupos </a>
               </li>
+              {%endif%}
+              {% if perms.academica.view_horario %}
               <li>
                 <a href="{% url 'academica:Horario_list'%}">
-                  <span class="glyphicon glyphicon-bell"></span> Horarios de clase </a>
+                  <span class="glyphicon glyphicon-calendar"></span> Admin horarios </a>
               </li>
+              {%endif%}
+              {% if perms.academica.view_registro %}
               <li>
                 <a href="{% url 'academica:registro_list'%}">
-                  <span class="glyphicon glyphicon-check"></span> Asistencia </a>
+                  <span class="glyphicon glyphicon-check"></span> Admin Registro </a>
               </li>
-              
+              {%endif%}
+              <li>
+                <a href="admin_forms-layouts.html">
+                  <span class="fa fa-desktop"></span> Admin Layouts </a>
+              </li>
+              <li>
+                <a href="admin_forms-wizard.html">
+                  <span class="fa fa-clipboard"></span> Admin Wizard </a>
+              </li>
             </ul>
-            <li>
-              <a class="accordion-toggle" href="#">
-                <span class="fa fa-calendar"></span> Horario
-                <span class="caret"></span>
-              </a>
-              <ul class="nav sub-nav">
-                <li>
-              <a href="{% url 'academica:list_horario' %}">
-                <span class="glyphicon glyphicon-edit"></span> Listar horarios </a>
-            </li>
-          </ul>
-          </ul>
           </li>
-          
+
           <li class="sidebar-label pt20">Systems</li>
           <li>
             <a class="accordion-toggle" href="#">
@@ -968,6 +1032,13 @@
 
       <!-- Begin: Content -->
       <section id="content" class="animated fadeIn">
+
+          {% if messages %}
+              {% for message in messages %}
+                  <div class="alert {{ message.tags }}" id="id_alert_placeholder">{{ message }}</div>
+              {% endfor %}
+          {% endif %}
+
       {% block content %}
       
        
@@ -981,7 +1052,7 @@
       <footer id="content-footer">
         <div class="row">
           <div class="col-md-6">
-            <span class="footer-legal">© 2021 Joshuargmx</span>
+            <span class="footer-legal">© 2022 SIGEPLA</span>
           </div>
           <div class="col-md-6 text-right">
             <span class="footer-meta">10GB of <b>250GB</b> Free</span>
@@ -1167,7 +1238,7 @@
   <script src="{% static 'Admin-new/assets/js/main.js' %}"></script>
 
   <!-- Widget Javascript -->
-  <script src="{% static 'Admin-new/assets/js/demo/widgets.js' %}"></script>
+  <script src="assets/js/demo/widgets.js"></script>
 
   <!-- Datatables -->
   <script src="{% static 'Admin-new/vendor/plugins/datatables/media/js/jquery.dataTables.js' %}"></script>
@@ -1178,23 +1249,7 @@
   <!-- Datatables Bootstrap Modifications  -->
   <script src="{% static 'Admin-new/vendor/plugins/datatables/media/js/dataTables.bootstrap.js' %}"></script>
 
-  <!-- AdminForms Date/Month Pickers -->
-  <script src="{% static 'Admin-new/assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js' %}"></script>
-  <script src="{% static 'Admin-new/assets/admin-tools/admin-forms/js/jquery-ui-datepicker.min.js' %}"></script>
-
-  <!-- Magnific Popup Plugin -->
-  <script src="{% static 'Admin-new/vendor/plugins/magnific/jquery.magnific-popup.js' %}"></script>
-
-  <!-- FullCalendar Plugin + Moment Dependency -->
-  <!--<script src="{% static 'Admin-new/vendor/plugins/fullcalendar/lib/moment.min.js' %}"></script>-->
-  <!--<script src="{% static 'Admin-new/vendor/plugins/fullcalendar/fullcalendar.min.js' %}"></script>-->
-  <script src="{% static 'Admin-new/vendor/plugins/fullcalendar/lib/main.js' %}"></script>
-  <!-- lenguaje -->
-  <script src="{% static 'Admin-new/vendor/plugins/fullcalendar/lib/locales/es.js' %}"></script>
-
-  <!-- formato de la fecha -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
-
+ 
 
   {% block js_page-principal %}
   <script type="text/javascript">
@@ -1227,27 +1282,27 @@
       }
     });
     
-  //  $('#datatable3').dataTable({
-    ///  "aoColumnDefs": [{
-       // 'bSortable': false,
-        //'aTargets': [-1]
-      //}],
-     // "oLanguage": {
-       // "oPaginate": {
-         // "sPrevious": "",
-//          "sNext": ""
-  //      }
-    //  },
-   //   "iDisplayLength": 5,
-  //    "aLengthMenu": [
- //       [5, 10, 25, 50, -1],
-  //      [5, 10, 25, 50, "All"]
-   //   ],
-  //    "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
-    //  "oTableTools": {
-    //    "sSwfPath": "{% static 'Admin-new/vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf' %}"
-  //    }
-//    });
+    $('#datatable3').dataTable({
+      "aoColumnDefs": [{
+        'bSortable': false,
+        'aTargets': [-1]
+      }],
+      "oLanguage": {
+        "oPaginate": {
+          "sPrevious": "",
+          "sNext": ""
+        }
+      },
+      "iDisplayLength": 5,
+      "aLengthMenu": [
+        [5, 10, 25, 50, -1],
+        [5, 10, 25, 50, "All"]
+      ],
+      "sDom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
+      "oTableTools": {
+        "sSwfPath": "{% static 'Admin-new/vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf' %}"
+      }
+    });
 
     // Add Placeholder text to datatables filter bar
     $('.dataTables_filter input').attr("placeholder", "Enter Terms...");

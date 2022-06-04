@@ -1,36 +1,55 @@
 from django import forms
-from django.forms import fields
+from django.forms import CheckboxSelectMultiple, fields
 from django.forms.models import ModelForm
-from django.forms.widgets import PasswordInput
+from django.forms.widgets import PasswordInput, SelectMultiple
 from django.contrib.auth.models import User
 from django.utils.regex_helper import Group
-from .models import Plan_Estudio, Perfil_Egreso, Ambitos, Carrera, Ano, Semestre, Ejes, Asignatura, Competencias
+from .models import Roadmap, Perfil_Egreso, Ambitos, Major, Semester, Axis, Subject, Competencias, Complementarias, Firmas, Ambitos_Ingreso, Certificacion_Est, Certificacion, Procedimiento_Acre, Procedimiento_Eval, Procedimientos, Recomendaciones_Met, Recomendaciones, Subrecomendaciones, Perfil_Ingreso, Catalogo_Ejes
 
 # from para agregar usuarios
 
+
+
 class PlanEstudioForm(forms.ModelForm):
     class Meta:
-        model= Plan_Estudio
+        model= Roadmap
 
-        fields = ['objetivo',]
+        fields = ['objetive','name']
 
-        labels = {'objetivo: objetivo del plan de estudios' 
+        labels = {'objetive: objetivo del plan de estudios' ,
+                    'name: nombre',
+                    
                   }
 
-        widget = {'objetivo': forms.TextInput,
-
+        widget = {'objetive': forms.TextInput,
+                   'name': forms.TextInput
                   }
+class Catalogo_EjesForm(forms.ModelForm):
+    class Meta:
+        model= Catalogo_Ejes
+
+        fields = ['nombreejes']
+
+        labels = {
+                    'nombreejes: nombreejes',
+                    
+                  }
+
+        widget = {
+                   'nombreejes': forms.TextInput
+                  }
+
 
 class Perfil_EgresoForm(forms.ModelForm):
     class Meta:
         model= Perfil_Egreso
 
-        fields = ['descripcionPe',]
+        fields = ['descripcionPe']
 
-        labels = {'descripcionPe: descripcion plan de estudios' 
+        labels = {'descripcionPe: descripcion  de estudios' 
                   }
 
-        widget = {'descripcionPe': forms.TextInput,
+        widget = {'descripcionPe': forms.TextInput
                     
                   } 
 class AmbitosForm(forms.ModelForm):
@@ -42,49 +61,55 @@ class AmbitosForm(forms.ModelForm):
         labels = {'descripcionAmb: descripcion del ambito' 
                   }
 
-        widget = {'descripcionAmb': forms.TextInput,
+        widget = {'descripcionAmb': forms.TextInput
                     
                   } 
 class CarreraForm(forms.ModelForm):
     class Meta:
-        model= Carrera
+        model= Major
 
-        fields = ['carrera', 'nom_corto',]
+        fields = ['name', 'abbreviation']
 
-        labels = {'carrera: Carrera', 
-                 'nom_corto: Nombre corto' 
+        labels = {'name: carrera',
+                 'abbreviation: Nombre corto'
                   }
 
-        widget = {'carrera': forms.TextInput,
-                 'nom_corto':  forms.TextInput,
+        widget = {'name': forms.TextInput,
+                 'abbreviation':  forms.TextInput
                   } 
+   
+   
 class AnoForm(forms.ModelForm):
-    class Meta:
-        model= Ano
+    pass
 
-        fields = ['ano',]
 
-        labels = {'ano: año' 
-                  }
-
-        widget = {'ano': forms.TextInput,
-                  } 
 class SemestreForm(forms.ModelForm):
     class Meta:
-        model= Ano
+        model= Semester
 
-        fields = ['semestre',]
+        fields = ['period']
 
-        labels = {'semestre: Semestre' 
+        labels = {'semester: Semestre'
                   }
 
-        widget = {'semestre': forms.TextInput,
+        widget = {'semester': forms.TextInput
+                  } 
+class EjesForm(forms.ModelForm):
+    class Meta:
+        model= Axis
+
+        fields = ['name', ]
+
+        labels = {'name: Ejes'
+                  }
+
+        widget = {'name': forms.TextInput
                   } 
 class AsignaturaForm(forms.ModelForm):
     class Meta:
-        model= Asignatura
+        model= Subject
 
-        fields = ['asignatura', 'contenido', 'totalHsTeoricas', 'totalHsPracticas', 'total', 'creditos', ]
+        fields = ['name', 'content', 'theory_hours', 'practice_hours', 'total_hours', 'credits']
 
         labels = {'asignatura: Asignatura', 
                 'contenido: Contenido', 
@@ -96,21 +121,162 @@ class AsignaturaForm(forms.ModelForm):
 
         widget = {'asignatura': forms.TextInput,
                   'contenido': forms.TextInput,
-                  'totalHsTeoricas' : forms.TextInput,
-                  'totalHsPracticas' : forms.TextInput,
-                  'total' : forms.TextInput,
-                  'creditos' : forms.TextInput,
+                  'totalHsTeoricas' : forms.FloatField,
+                  'totalHsPracticas' : forms.FloatField,
+                  'total' : forms.FloatField,
+                  'creditos' : forms.FloatField
                   } 
 class CompetenciasForm(forms.ModelForm):
     class Meta:
         model= Competencias
 
-        fields = ['competencia', 'descripcionCompetencia',]
+        fields = ['competencia', 'descripcionCompetencia']
 
         labels = {'competencia: Competencia', 
                 'descripcionCompetencia: Descripcion de la Competencia' 
                   }
 
         widget = {'competencia': forms.TextInput,
-                 'descripcionCompetencia':  forms.TextInput,
+                 'descripcionCompetencia':  forms.TextInput
                   } 
+class ComplementariasForm(forms.ModelForm):
+    class Meta:
+        model= Complementarias
+
+        fields = ['complementaria']
+
+        labels = {'complementaria: Complementaria ' 
+                  }
+
+        widget = {'complementaria': forms.TextInput
+                  } 
+class FirmasForm(forms.ModelForm):
+    class Meta:
+        model= Firmas
+
+        fields = ['grado', 'nombre_Completo','matricula']
+
+        labels = {'grado: Grado', 
+                'nombre_Completo: Nombre_Completo'
+                'matricula: Matricula' 
+                  }
+
+        widget = {'grado': forms.TextInput,
+                 'nombre_Completo':  forms.TextInput,
+                 'matricula': forms.TextInput
+                  } 
+class Perfil_IngresoForm(forms.ModelForm):
+    class Meta:
+        model= Perfil_Ingreso
+
+        fields = ['ambitos_MCCF']
+
+        labels = {'ambitos_MCCF: Ambitos_MCCF'
+                  }
+
+        widget = {'Ambitos_MCCF': forms.TextInput
+                  } 
+class Ambitos_IngresoForm(forms.ModelForm):
+    class Meta:
+        model= Ambitos_Ingreso
+
+        fields = ['descripcionAmbito',]
+
+        labels = {'descripcionAmbito: Descripcion del ambito' 
+                  }
+
+        widget = {'descripcionAmbito': forms.TextInput
+                    
+                  } 
+class Certificacion_EstForm(forms.ModelForm):
+    class Meta:
+        model= Certificacion_Est
+
+        fields = ['certificacion_es']
+
+        labels = {'certificacion_es: Certificacion_es' 
+                  }
+
+        widget = {'certificacion_es': forms.TextInput
+                  } 
+class CertificacionForm(forms.ModelForm):
+    class Meta:
+        model= Certificacion
+
+        fields = ['descripcion_Cer']
+
+        labels = {'descripcion_Cer: Descripcion_Cer' 
+                  }
+
+        widget = {'descripcion_Cer': forms.TextInput
+                  } 
+class Procedimiento_AcreForm(forms.ModelForm):
+    class Meta:
+        model= Procedimiento_Acre
+
+        fields = ['acreditacion']
+
+        labels = {'acreditacion: Acreditacion', 
+                  }
+
+        widget = {'acreditacion': forms.TextInput,
+                  } 
+class Procedimiento_EvalForm(forms.ModelForm):
+    class Meta:
+        model= Procedimiento_Eval
+
+        fields = ['procedimientos_E']
+
+        labels = {'procedimientos_E: Procedimientos_E', 
+                  }
+
+        widget = {'procedimientos_E': forms.TextInput,
+                  } 
+class ProcedimientosForm(forms.ModelForm):
+    class Meta:
+        model= Procedimientos
+
+        fields = ['elemento', 'porcentaje',]
+
+        labels = {'elemento: Elemento', 
+                'porcentaje: Porcentaje' 
+                  }
+
+        widget = {'Elemento': forms.TextInput,
+                 'porcentaje':  forms.TextInput,
+                  } 
+class Recomendaciones_MetForm(forms.ModelForm):
+    class Meta:
+        model= Recomendaciones_Met
+
+        fields = ['recomendaciones']
+
+        labels = {'recomendaciones: recomendaciones', 
+                  }
+
+        widget = {'recomendaciones': forms.TextInput,
+                  } 
+class RecomendacionesForm(forms.ModelForm):
+    class Meta:
+        model= Recomendaciones
+
+        fields = ['subRecomendaciones']
+
+        labels = {'subRecomendaciones: SubRecomendaciones' 
+                  }
+
+        widget = {'subRecomendaciones': forms.TextInput
+                  } 
+class SubrecomendacionesForm(forms.ModelForm):
+    class Meta:
+        model= Subrecomendaciones
+
+        fields = ['subInciso']
+
+        labels = {'subInciso: SubInciso', 
+                  }
+        widget = {'subInciso': forms.TextInput,
+                  } 
+
+
+        

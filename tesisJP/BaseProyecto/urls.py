@@ -21,15 +21,18 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', include(('bases.urls', 'bases'), namespace='bases')),
-    path('pedagogica/',include (('pedagogica.urls', 'pedagogica'), namespace= 'pedagogica')),
-    path('academica/',include (('academica.urls', 'academica'), namespace= 'academica')),
-    path('usuarios/',include (('usuarios.urls', 'usuarios'), namespace= 'usuarios')),
-    
+    path('pedagogica/', include(('pedagogica.urls', 'pedagogica'), namespace='pedagogica')),
+    path('pedagogica/axis/', include('pedagogica.axis.urls')),
+    path('pedagogica/subject/', include('pedagogica.subject.urls')),
+    path('pedagogica/major/', include('pedagogica.major.urls')),
+    path('pedagogica/roadmap/', include('pedagogica.roadmap.urls')),
+    path('academica/', include(('academica.urls', 'academica'), namespace='academica')),
+    path('usuarios/', include(('usuarios.urls', 'usuarios'), namespace='usuarios')),
+
     path('admin/', admin.site.urls),
 ]
 
-
 urlpatterns += static(settings.STATIC_URL,
-                    document_root= settings.STATIC_ROOT)
+                      document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL,
-                    document_root=settings.MEDIA_ROOT) 
+                      document_root=settings.MEDIA_ROOT)

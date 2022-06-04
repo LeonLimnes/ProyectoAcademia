@@ -58,7 +58,6 @@ class CrearUsuario(LoginRequiredMixin,ValidatePermissionRequiredMixin, generic.C
         }
         return render(request, 'formU.html', context)
 
-   
     def form_valid(self, form):
         form.instance.uc = self.request.user
 
@@ -88,10 +87,10 @@ class CrearUsuario(LoginRequiredMixin,ValidatePermissionRequiredMixin, generic.C
         return super().form_valid(form)
 
     def form_invalid(self, form, **kwargs):
-        grupos = models.Group.objects.all()
+        #grupos = models.Group.objects.all()
         context = self.get_context_data(**kwargs)
         context['form'] = form
-        context['grupos'] = grupos 
+        #context['grupos'] = grupos
         return self.render_to_response(context)
 
 class ActualizarUsuario(LoginRequiredMixin, generic.UpdateView):

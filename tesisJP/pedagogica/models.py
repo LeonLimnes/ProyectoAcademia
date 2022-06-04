@@ -5,267 +5,317 @@ from django.db.models.deletion import CASCADE
 from django.db.models.fields.related import ForeignKey
 
 
+class Catalogo_Ejes(models.Model):
+    nombreejes = models.CharField(max_length=400, blank=True, null=True)
+
+    def __str__(self):
+        return self.nombreejes
+
+    class Meta:
+        verbose_name_plural = 'Nombreejes'
+
+    def save(self, *args, **kwargs):
+        super(Catalogo_Ejes, self).save()
+
+
 class Subrecomendaciones(models.Model):
-    subInciso= models.CharField(max_length=400, blank=False, null=False)
-    
+    subInciso = models.CharField(max_length=400, blank=True, null=True)
+
     def __str__(self):
         return self.subInciso
+
     class Meta:
         verbose_name_plural = 'Subrecomendaciones'
-    def save(self):
-        super(Subrecomendaciones,self).save()
+
+    def save(self, *args, **kwargs):
+        super(Subrecomendaciones, self).save()
+
 
 class Recomendaciones(models.Model):
-    subRecomendaciones= models.CharField(max_length=400, blank=False, null=False)
-    
-    aSubRecomendaciones= models.ForeignKey(Subrecomendaciones, on_delete=models.CASCADE)
+    subRecomendaciones = models.CharField(max_length=400, blank=True, null=True)
+
+    aSubRecomendaciones = models.ForeignKey(Subrecomendaciones, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.subRecomendaciones
+
     class Meta:
         verbose_name_plural = 'Recomendaciones'
-    def save(self):
-        super(Recomendaciones,self).save()
+
+    def save(self, *args, **kwargs):
+        super(Recomendaciones, self).save()
+
 
 class Recomendaciones_Met(models.Model):
-    recomendaciones= models.CharField(max_length=400, blank=False, null=False)
-    
-    aProcedimientos= models.ForeignKey(Recomendaciones, on_delete=models.CASCADE)
+    recomendaciones = models.CharField(max_length=400, blank=True, null=True)
+
+    aProcedimientos = models.ForeignKey(Recomendaciones, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.recomendaciones
+
     class Meta:
         verbose_name_plural = 'Recomendaciones_Met'
-    def save(self):
-        super(Recomendaciones_Met,self).save()
+
+    def save(self, *args, **kwargs):
+        super(Recomendaciones_Met, self).save()
+
 
 class Procedimientos(models.Model):
-    elemento= models.CharField(max_length=400, blank=False, null=False)
-    porcentaje= models.CharField(max_length=400, blank=False, null=False)
+    elemento = models.CharField(max_length=400, blank=True, null=True)
+    porcentaje = models.CharField(max_length=400, blank=True, null=True)
 
     def __str__(self):
         return self.elemento
+
     class Meta:
         verbose_name_plural = 'Procedimientos'
-    def save(self):
-        super(Procedimientos,self).save()
+
+    def save(self, *args, **kwargs):
+        super(Procedimientos, self).save()
+
 
 class Procedimiento_Eval(models.Model):
-    procedimientos_E =models.CharField(max_length=400, blank=False, null=False)
+    procedimientos_E = models.CharField(max_length=400, blank=True, null=True)
 
-    aProcedimientos= models.ForeignKey(Procedimientos, on_delete=models.CASCADE)
+    aProcedimientos = models.ForeignKey(Procedimientos, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.procedimientos_E
+
     class Meta:
         verbose_name_plural = 'Procedimiento_Eval'
-    def save(self):
-        super(Procedimiento_Eval,self).save()
+
+    def save(self, *args, **kwargs):
+        super(Procedimiento_Eval, self).save()
 
 
 class Procedimiento_Acre(models.Model):
-    acreditacion =models.CharField(max_length=400, blank=False, null=False)
+    acreditacion = models.CharField(max_length=400, blank=True, null=True)
 
     def __str__(self):
         return self.acreditacion
+
     class Meta:
         verbose_name_plural = 'Procedimiento_Acre'
-    def save(self):
-        super(Procedimiento_Acre,self).save()
+
+    def save(self, *args, **kwargs):
+        super(Procedimiento_Acre, self).save()
+
 
 class Certificacion(models.Model):
-    descripcion_Cer =models.CharField(max_length=400, blank=False, null=False)
-
+    descripcion_Cer = models.CharField(max_length=400, blank=True, null=True)
 
     def __str__(self):
         return self.descripcion_Cer
+
     class Meta:
         verbose_name_plural = 'Certificacion_Cer'
-    def save(self):
-        super(Certificacion,self).save()
 
-class Certificacion_Est (models.Model):
-    certificacion_es =models.CharField(max_length=400, blank=False, null=False)
+    def save(self, *args, **kwargs):
+        super(Certificacion, self).save()
 
-    aCertificacion= models.ForeignKey(Certificacion, on_delete=models.CASCADE)
+
+class Certificacion_Est(models.Model):
+    certificacion_es = models.CharField(max_length=400, blank=True, null=True)
+
+    aCertificacion = models.ForeignKey(Certificacion, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.certificacion_es
+
     class Meta:
         verbose_name_plural = 'Certificacion_Est'
-    def save(self):
-        super(Certificacion_Est,self).save()
+
+    def save(self, *args, **kwargs):
+        super(Certificacion_Est, self).save()
 
 
-class Ambitos_Ingreso (models.Model):
-    descripcionAmbito =models.CharField(max_length=400, blank=False, null=False)
-
+class Ambitos_Ingreso(models.Model):
+    descripcionAmbito = models.CharField(max_length=400, blank=True, null=True)
 
     def __str__(self):
         return self.descripcionAmbito
+
     class Meta:
         verbose_name_plural = 'Ambitos_Ingreso'
-    def save(self):
-        super(Ambitos_Ingreso,self).save()
+
+    def save(self, *args, **kwargs):
+        super(Ambitos_Ingreso, self).save()
 
 
-class Perfil_Ingreso (models.Model):
-    ambitos_MCCF =models.CharField(max_length=400, blank=False, null=False)
+class Perfil_Ingreso(models.Model):
+    ambitos_MCCF = models.CharField(max_length=400, blank=True, null=True)
 
-    aAmbitosIngreso= models.ForeignKey(Ambitos_Ingreso, on_delete=models.CASCADE)
+    aAmbitosIngreso = models.ForeignKey(Ambitos_Ingreso, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.ambitos_MCCF
+
     class Meta:
         verbose_name_plural = 'Perfil_Ingreso'
-    def save(self):
-        super(Perfil_Ingreso,self).save()
+
+    def save(self, *args, **kwargs):
+        super(Perfil_Ingreso, self).save()
 
 
 class Firmas(models.Model):
-    grado =models.CharField(max_length=400, blank=False, null=False)
-    nombre_Completo =models.CharField(max_length=400, blank=False, null=False)
-    matricula =models.CharField(max_length=400, blank=False, null=False)
+    grado = models.CharField(max_length=400, blank=True, null=True)
+    nombre_Completo = models.CharField(max_length=400, blank=True, null=True)
+    matricula = models.CharField(max_length=400, blank=True, null=True)
 
     def __str__(self):
         return self.grado
+
     class Meta:
         verbose_name_plural = 'Firmas'
-    def save(self):
-        super(Firmas,self).save()
 
-class Complementarias (models.Model):
-    complementaria =models.CharField(max_length=400, blank=False, null=False)
+    def save(self, *args, **kwargs):
+        super(Firmas, self).save()
+
+
+class Complementarias(models.Model):
+    complementaria = models.CharField(max_length=400, blank=True, null=True)
 
     def __str__(self):
         return self.complementaria
+
     class Meta:
         verbose_name_plural = 'Complementarias'
-    def save(self):
-        super(Complementarias,self).save()
-    
 
-class Competencias (models.Model):
-    competencia =models.CharField(max_length=200, blank=False, null=False)
-    descripcionCompetencia =models.CharField(max_length=400, blank=False, null=False)
+    def save(self, *args, **kwargs):
+        super(Complementarias, self).save()
+
+
+class Competencias(models.Model):
+    competencia = models.CharField(max_length=200, blank=True, null=True)
+    descripcionCompetencia = models.CharField(max_length=400, blank=True, null=True)
 
     def __str__(self):
         return self.competencia
+
     class Meta:
         verbose_name_plural = 'Competencias'
-    def save(self):
-        super(Competencias,self).save()
+
+    def save(self, *args, **kwargs):
+        super(Competencias, self).save()
 
 
 class Ambitos(models.Model):
-    descripcionAmb =models.CharField(max_length=200, blank=False, null=False)
-    aCompetencia= models.ForeignKey(Competencias, on_delete=models.CASCADE)
+    descripcionAmb = models.CharField(max_length=200, blank=True, null=True)
+    aCompetencia = models.ForeignKey(Competencias, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.descripcionAmb
+
     class Meta:
         verbose_name_plural = 'Ambitos'
-    def save(self):
-        super(Ambitos,self).save()
+
+    def save(self, *args, **kwargs):
+        super(Ambitos, self).save()
 
 
 class Perfil_Egreso(models.Model):
-    descripcionPe =models.CharField(max_length=400, blank=False, null=False)
+    descripcionPe = models.CharField(max_length=400, blank=True, null=True)
 
-    ambito= models.ForeignKey(Ambitos, on_delete=models.CASCADE)
+    ambito = models.ForeignKey(Ambitos, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.descripcionPe 
+        return self.descripcionPe
+
     class Meta:
         verbose_name_plural = 'Perfil_Egresos'
-    def save(self):
-        super(Perfil_Egreso,self).save()
+
+    def save(self, *args, **kwargs):
+        super(Perfil_Egreso, self).save()
 
 
-class Asignatura(models.Model):
-    asignatura = models.CharField(max_length=100, blank=False, null=False)
-    contenido =models.CharField(max_length=100, blank=False, null=False)
-    totalHsTeoricas =models.FloatField(blank=False, null=False)
-    totalHsPracticas =models.FloatField(blank=False, null=False)
-    total =models.FloatField(blank=False, null=False)
-    creditos =models.FloatField(blank=False, null=False)
+class Axis(models.Model):
+    name = models.CharField(verbose_name='Nombre', max_length=100, blank=False, null=False)
 
     def __str__(self):
-        return self.asignatura 
+        return str(self.name)
+
     class Meta:
-        verbose_name_plural = 'Asignaturas'
-    def save(self):
-        super(Asignatura,self).save()
-
-
-class Ejes(models.Model):
-    ejes =models.CharField(max_length=100, blank=False, null=False)
-
-    asignatura= models.ForeignKey(Asignatura, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.ejes 
-    class Meta:
+        verbose_name = 'Eje'
         verbose_name_plural = 'Ejes'
-    def save(self):
-        super(Ejes,self).save()
 
-class Semestre(models.Model):
-    semestre =models.CharField(max_length=100, blank=False, null=False)
+    def save(self, *args, **kwargs):
+        super(Axis, self).save()
 
-    ejes= models.ForeignKey(Ejes, on_delete=models.CASCADE)
-   
+
+class Semester(models.Model):
+    period = models.IntegerField(blank=False, null=False)
+    year = models.IntegerField(verbose_name='Año', blank=False, null=False)
+
     def __str__(self):
-        return self.semestre 
+        return str(self.period)
+
     class Meta:
+        verbose_name = 'Semestre'
         verbose_name_plural = 'Semestres'
-    def save(self):
-        super(Semestre,self).save()
 
-class Ano(models.Model):
-    ano = models.CharField(max_length=100, blank=False, null=False)
+    def save(self, *args, **kwargs):
+        super(Semester, self).save()
 
-    semestre= models.ForeignKey(Semestre, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.ano 
-    class Meta:
-        verbose_name_plural = 'Anos'
-    def save(self):
-        super(Ano,self).save()
-
-class Carrera(models.Model):
-    carrera = models.CharField(max_length=100, blank=False, null=False)
-    nom_corto = models.CharField(max_length=100, blank=False, null=False)
-
-    #Relacion hacia la tabla de año
-    ano =models.ForeignKey(Ano, on_delete=models.CASCADE)
-    
-
-    def __str__(self): #lo que va a devolver de manera automatica
-        return self.carrera 
-
-    class Meta:
-        verbose_name_plural = 'Carreras' #Consultar nombre plural
-    
-    def save(self):   #el metodo save va a guardar la informacion en estos campos
-        super(Carrera,self).save()
-
-        
-class Plan_Estudio(models.Model):
-    objetivo =models.CharField(max_length=400, blank=False, null=False)
-
-    descripcionPEgre= models.ForeignKey(Perfil_Egreso, on_delete=models.CASCADE)    
-    pCarrera= models.ForeignKey(Carrera, on_delete=models.CASCADE)
-    pComplementarias= models.ForeignKey(Complementarias, on_delete=models.CASCADE)
-    pFirmas= models.ForeignKey(Firmas, on_delete=models.CASCADE)
-    pPerfil_Ingreso= models.ForeignKey(Perfil_Ingreso, on_delete=models.CASCADE)
-    pProcedimiento_Acre= models.ForeignKey(Procedimiento_Acre, on_delete=models.CASCADE)
-    pRecomendaciones_Met= models.ForeignKey(Recomendaciones_Met, on_delete=models.CASCADE)
+class Subject(models.Model):
+    name = models.CharField(verbose_name='Nombre', max_length=100, blank=False, null=False)
+    content = models.CharField(verbose_name='Contenido', max_length=100, blank=False, null=False)
+    theory_hours = models.FloatField(verbose_name='Horas teóricas', blank=False, null=False)
+    practice_hours = models.FloatField(verbose_name='Horas prácticas', blank=False, null=False)
+    total_hours = models.FloatField(verbose_name='Total de hors', blank=False, null=False)
+    credits = models.FloatField(verbose_name='Créditos', blank=False, null=False)
+    axis = models.ForeignKey(verbose_name='Eje', to=Axis, related_name='subjects', on_delete=models.CASCADE)
+    semester = models.ForeignKey(verbose_name='Semestre', to=Semester, related_name='semester', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.objetivo 
+        return str(self.name)
+
     class Meta:
-        verbose_name_plural = 'Planes_Estudio'
-    def save(self):
-        super(Plan_Estudio,self).save()
+        verbose_name = 'Asignatura'
+        verbose_name_plural = 'Asignaturas'
+
+    def save(self, *args, **kwargs):
+        self.total_hours = self.theory_hours + self.practice_hours
+        super(Subject, self).save()
+
+
+class Major(models.Model):
+    name = models.CharField(verbose_name='Nombre', max_length=100, blank=False, null=False)
+    abbreviation = models.CharField(verbose_name='Nombre corto', max_length=100, blank=False, null=False)
+    subject = models.ManyToManyField(verbose_name='Asignaturas', to=Subject, related_name='subjects')
+
+    def __str__(self):
+        return str(self.name)
+
+    class Meta:
+        verbose_name = 'Carrera'
+        verbose_name_plural = 'Carreras'
+
+    def save(self, *args, **kwargs):
+        super(Major, self).save()
+
+
+class Roadmap(models.Model):
+    name = models.CharField(verbose_name='Nombre', max_length=400, blank=False, null=False)
+    objetive = models.CharField(verbose_name='Objetivo', max_length=400, blank=False, null=False)
+    major = models.OneToOneField(verbose_name='Carrera', to=Major, related_name='major', on_delete=models.CASCADE)
+    descripcionPEgre = models.ForeignKey(Perfil_Egreso, on_delete=models.CASCADE)
+    pComplementarias = models.ForeignKey(Complementarias, on_delete=models.CASCADE)
+    pFirmas = models.ForeignKey(Firmas, on_delete=models.CASCADE)
+    pPerfil_Ingreso = models.ForeignKey(Perfil_Ingreso, on_delete=models.CASCADE)
+    pProcedimiento_Acre = models.ForeignKey(Procedimiento_Acre, on_delete=models.CASCADE)
+    pRecomendaciones_Met = models.ForeignKey(Recomendaciones_Met, on_delete=models.CASCADE)
+    pCertificacion_Est = models.ForeignKey(Certificacion_Est, on_delete=models.CASCADE)
+    pProcedimiento_Eval = models.ForeignKey(Procedimiento_Eval, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Plan de Estudio'
+        verbose_name_plural = 'Planes de Estudio'
+
+    def save(self, *args, **kwargs):
+        super(Roadmap, self).save()

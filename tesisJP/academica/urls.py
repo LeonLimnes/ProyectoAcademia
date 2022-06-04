@@ -1,6 +1,6 @@
 from django.urls import path
 from django.urls.resolvers import URLPattern
-from .views import AcademicaView,listar_usuario_cliente, search ,GrupoView , GrupoDel, GrupoEdit, GrupoNew, GrupoView, HorarioView, HorarioNew, HorarioDel, HorarioEdit, registroPdf, registroView, registroNew, salidadocente, CrearHorarioView,listHorarioView,DocenteNew, DocenteView, DocenteEdit, DocenteDel
+from .views import AcademicaView,listar_usuario_cliente, search ,GrupoView , GrupoDel, GrupoEdit, GrupoNew, GrupoView, HorarioView, HorarioNew, HorarioDel, HorarioEdit, registroPdf, registroView, registroNew, salidadocente
 from django.contrib import admin  
 from academica import views  
 from django.conf.urls import url
@@ -8,12 +8,6 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('academiaca/', AcademicaView.as_view(), name="academica_list"),
-    #docente
-    path('docente_list/', DocenteView.as_view(), name="docente_list"),
-    path('docente/new/', DocenteNew.as_view(), name="docente_new"),
-    path('docente/edit/<int:pk>', DocenteEdit.as_view(), name="docente_edit"),
-    path('docente/delete/<int:pk>', DocenteDel.as_view(), name="docente_del"),
-   
     #Rutas para horarios
     path('Horario_list/', HorarioView.as_view(), name="Horario_list"),
     path('Horario/new/', HorarioNew.as_view(), name="Horario_new"),
@@ -32,13 +26,8 @@ urlpatterns = [
     path('docente/sale/<int:pk>', salidadocente.as_view(), name="docente_sale"),
     path('registro_PDF/', registroPdf.as_view(), name="registro_PDF"),
     
-    #Rutas para crear el horrio
-    path('list_horarios/', listHorarioView.as_view(), name="list_horario"),
-    path('new_horarios/', CrearHorarioView.as_view(), name="crear_horario"),
-    
-
-
     path('admin/', admin.site.urls),  
     url(r'^search/$', views.search, name='search'),
     
+    path('cliente/', listar_usuario_cliente, name='cliente'),
 ]
