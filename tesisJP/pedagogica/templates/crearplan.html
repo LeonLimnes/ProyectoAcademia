@@ -1,0 +1,588 @@
+{% extends 'base/base-admin.html' %}
+
+{% block tituloprincipal %}
+<h1 class="page-header">Generar Plan de Estudios </h1>
+{% endblock %}
+
+
+{% block content%}
+
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                {% if obj %}
+                    Edita la Informacion para el Usuario
+                {% else %}
+                    Agrega la informacion para el nuevo Plan de Estudios
+                {% endif %}
+                </div>
+                <div class="panel-body">
+                    <img src ="https://aeropuertoaifa.mx/wp-content/uploads/2020/01/Escudo-EMI-768x755.png" style="float: right;" width="520" height="520">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form role="form" method="POST" >
+                                {% csrf_token %}
+                                <small class="text-danger center">
+                                    {% if form.errors %}
+                                        <!-- Errores  de los campos-->
+                                        {% for field in form%}
+                                            {% if field.errors %}
+                                                {%for error in field.errors %}
+                                                {{field.name}} : {{ error|escape}} <br>
+                                                {%endfor%}
+                                            {% endif %}
+                                        {% endfor%}
+                                        
+                                        <!-- Errores que no son de los campos-->
+                                        {% if form.non_field_errors %}
+                                            {%for error in form.non_field_errors %}
+                                                {{ error|escape}}
+                                            {%endfor%}
+                                        {% endif %}
+                        
+                                    {% endif %}
+                                </small>
+                                <div class="form-group">
+                                    <label>Nombre del Plan de Estudios</label>
+                                    <input class="form-control" required= "true" placeholder="Considerar poner el ciclo" name="plan_base" id="id_planbase" required value="{%if obj%} {{obj.first_name}} {% endif %}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Carrera</label>
+                                    <select mutiple class="form-control" name="groups" id="carrera">
+
+                                        {% for u in carrera.all %} 
+                                                        <tr>
+                                                            <td class="">
+                                                                <label class="option">
+                                                                <input type="checkbox" name="groups" id="id_groups" value="{{u.id}}" >
+                                                                <span class="checkbox"></span>
+                                                                </label>
+                                                            </td>
+                                                            <td>{{u.carrera}}</td>    
+                                                        </tr>
+                                         {%endfor%}
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Obejtivo general del Curso</label>
+                                    <input class="form-control" required= "true" placeholder="Introduce el objetivo del curso" name="first_name" id="id_name" required value="{%if obj%} {{obj.doc_name}} {% endif %}">
+                                </div>
+                                <h4>Perfil de Egreso</h4>
+                                <div class="form-group">
+                                    <label>Ambito militar</label>
+                                    <input class="form-control" required= "true" placeholder="Introduce el perfil de egreso " name="carrera" id="id_carrera" required value="{%if obj%} {{obj.carrera}} {% endif %}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ambito de la Especialidad </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce año de inicio de plan de estudios" name="username" id="id_plan_estudio" required value="{%if obj%} {{obj.plan_estudio}} {% endif %}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ambito Cultural</label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ambito civico - moral </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                 <div class="form-group">
+                                <label>Ambito fisico - mental </label>
+                                <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <h3>Asignaturas y Objetivos</h3>
+                                <h4>Primer Semestre</h4>
+                                <div class="form-group">
+                                    <label>Ingrese numero de ejes a utilizar en el semestre </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingrese eje </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Eje militar</option>
+                                        <option requiered value=1> Eje Civico</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue numero de materias que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue materia que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Educacion Fisica I.</option>
+                                        <option requiered value=1> Legislacion Militar</option>
+                                        <option requiered value=1> Ejercicios militares de aplicacion</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripcion de la materia </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <h4>Segundo Semestre</h4>
+                                <div class="form-group">
+                                    <label>Ingrese numero de ejes a utilizar en el semestre </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingrese eje </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Eje militar</option>
+                                        <option requiered value=1> Eje Civico</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue numero de materias que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue materia que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Educacion Fisica I.</option>
+                                        <option requiered value=1> Legislacion Militar</option>
+                                        <option requiered value=1> Ejercicios militares de aplicacion</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripcion de la materia </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <h4>Tercer Semestre</h4>
+                                <div class="form-group">
+                                    <label>Ingrese numero de ejes a utilizar en el semestre </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingrese eje </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Eje militar</option>
+                                        <option requiered value=1> Eje Civico</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue numero de materias que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue materia que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Educacion Fisica I.</option>
+                                        <option requiered value=1> Legislacion Militar</option>
+                                        <option requiered value=1> Ejercicios militares de aplicacion</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripcion de la materia </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <h4>Cuarto Semestre</h4>
+                                <div class="form-group">
+                                    <label>Ingrese numero de ejes a utilizar en el semestre </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingrese eje </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Eje militar</option>
+                                        <option requiered value=1> Eje Civico</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue numero de materias que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue materia que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Educacion Fisica I.</option>
+                                        <option requiered value=1> Legislacion Militar</option>
+                                        <option requiered value=1> Ejercicios militares de aplicacion</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripcion de la materia </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <h4>Quinto Semestre</h4>
+                                <div class="form-group">
+                                    <label>Ingrese numero de ejes a utilizar en el semestre </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingrese eje </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Eje militar</option>
+                                        <option requiered value=1> Eje Civico</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue numero de materias que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue materia que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Educacion Fisica I.</option>
+                                        <option requiered value=1> Legislacion Militar</option>
+                                        <option requiered value=1> Ejercicios militares de aplicacion</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripcion de la materia </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <h4>Sexto Semestre</h4>
+                                <div class="form-group">
+                                    <label>Ingrese numero de ejes a utilizar en el semestre </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingrese eje </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Eje militar</option>
+                                        <option requiered value=1> Eje Civico</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue numero de materias que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue materia que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Educacion Fisica I.</option>
+                                        <option requiered value=1> Legislacion Militar</option>
+                                        <option requiered value=1> Ejercicios militares de aplicacion</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripcion de la materia </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <h4>Septimo Semestre</h4>
+                                <div class="form-group">
+                                    <label>Ingrese numero de ejes a utilizar en el semestre </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingrese eje </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Eje militar</option>
+                                        <option requiered value=1> Eje Civico</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue numero de materias que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue materia que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Educacion Fisica I.</option>
+                                        <option requiered value=1> Legislacion Militar</option>
+                                        <option requiered value=1> Ejercicios militares de aplicacion</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripcion de la materia </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <h4>Octavo Semestre</h4>
+                                <div class="form-group">
+                                    <label>Ingrese numero de ejes a utilizar en el semestre </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingrese eje </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Eje militar</option>
+                                        <option requiered value=1> Eje Civico</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue numero de materias que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue materia que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Educacion Fisica I.</option>
+                                        <option requiered value=1> Legislacion Militar</option>
+                                        <option requiered value=1> Ejercicios militares de aplicacion</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripcion de la materia </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <h4>Noveno Semestre</h4>
+                                <div class="form-group">
+                                    <label>Ingrese numero de ejes a utilizar en el semestre </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingrese eje </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Eje militar</option>
+                                        <option requiered value=1> Eje Civico</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue numero de materias que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue materia que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Educacion Fisica I.</option>
+                                        <option requiered value=1> Legislacion Militar</option>
+                                        <option requiered value=1> Ejercicios militares de aplicacion</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripcion de la materia </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <h4>Decimo Semestre</h4>
+                                <div class="form-group">
+                                    <label>Ingrese numero de ejes a utilizar en el semestre </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingrese eje </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Eje militar</option>
+                                        <option requiered value=1> Eje Civico</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue numero de materias que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue materia que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Educacion Fisica I.</option>
+                                        <option requiered value=1> Legislacion Militar</option>
+                                        <option requiered value=1> Ejercicios militares de aplicacion</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripcion de la materia </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <h4>Onceavo Semestre</h4>
+                                <div class="form-group">
+                                    <label>Ingrese numero de ejes a utilizar en el semestre </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingrese eje </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Eje militar</option>
+                                        <option requiered value=1> Eje Civico</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue numero de materias que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue materia que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Educacion Fisica I.</option>
+                                        <option requiered value=1> Legislacion Militar</option>
+                                        <option requiered value=1> Ejercicios militares de aplicacion</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripcion de la materia </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <h4>Doceavo Semestre</h4>
+                                <div class="form-group">
+                                    <label>Ingrese numero de ejes a utilizar en el semestre </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Ingrese eje </label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Eje militar</option>
+                                        <option requiered value=1> Eje Civico</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue numero de materias que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> 1</option>
+                                        <option requiered value=1> 2</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Agregue materia que desea utilizar</label>
+                                    <select mutiple class="form-control" name="groups" id="id_usuario">
+
+                                        <option requiered value=2> Educacion Fisica I.</option>
+                                        <option requiered value=1> Legislacion Militar</option>
+                                        <option requiered value=1> Ejercicios militares de aplicacion</option>
+                                    </select> 
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripcion de la materia </label>
+                                    <input class="form-control" required= "true" placeholder="Introduce duracion de la carrera" name="duracion" id="id_duracion" required value="{%if obj%} {{obj.duracion}} {% endif %}">
+                                </div>
+                                <table class="table table-striped table-hover table-bordered" id="data">                        
+                                    <thead>
+                                      
+                                        <th>Nombre</th>
+                                        <th>Nombre de usuario</th>
+                                        <th>Correo</th>
+                                        <th>Fecha</th>
+                                        <th>Grupo</th>
+                                     
+                                        <!--<th>F. Creacion</th>
+                                        <th>F. Modificacion</th>-->
+                                        <th class="All">Acciones</th>
+                                    </thead>
+                                </table>
+                                <h4>Recomendaciones Metodologicas</h4>
+                                <h4>Perfil de Ingreso</h4>
+                                <!-- {{form.as_p}}-->
+                                 <br>                            
+                                <a href="{% url 'pedagogica:plan_list' %}">
+                                 <button type="submit" class="btn btn-success"><span class="fa fa-save"></span>Guardar</button>
+                                </a>
+                                <!--<a href="" class="btn btn-danger"><span class="fa fa-undo"></span>Cancelar</a>-->
+                            </form>
+                        </div>
+                       
+                        <!-- /.col-lg-6 (nested) -->
+                    </div>
+                    <!-- /.row (nested) -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+<!-- /#page-wrapper -->
+{% endblock content%}

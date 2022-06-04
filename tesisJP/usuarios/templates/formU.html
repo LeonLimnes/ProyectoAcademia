@@ -1,0 +1,562 @@
+{% extends 'base/base-admin.html' %}
+{% load static %}
+
+<div class="tray tray-center">
+    
+    {% block content%}
+    <div class="row mb10">
+        <div class="col-sm-6 col-md-6">
+            <h1>{% if edit %} Editar {% else %} Registrar Nuevo {% endif %}  Usuario </h1>
+        </div>
+    </div>
+
+    {% if form.errors%}
+    <div class="admin-form mw1000 center-block theme-warning">
+
+        <div class="panel heading-border panel-warning">
+        </br>
+        </br>
+            <div class="panel-heading">
+                <span class="panel-title">
+                <i class="fa fa-warning"></i>Errores en el registro del(a) usuario</span>
+            </div>
+            
+            <div class="panel-body bg-light">
+                <div class="col-md-6">
+                    <div class="section-divider mb40" id="spy1">
+                        <span><i class="fa fa-exclamation-circle"></i>  Campos No vàlidos: </span>
+                    </div>
+                </div>
+                <!--Errores del formulario para los campos de usuario
+                <div class="col-md-12">    
+                    {%if nombreConsultorio%}
+                        <p>{{nombreConsultorio}} </p>
+                    {%endif%}-->
+                    <!-- Errores  de los campos-->
+                    {% for field in form%}
+                        {% if field.errors %}
+                            {%for error in field.errors %}
+                            <span><p>{{field.name}} : {{ error|escape}} </p></span>
+                            {%endfor%}
+                        {% endif %}
+                    {% endfor%} 
+                    
+                    <!-- Errores que no son de los campos-->
+                    {% if form.non_field_errors %}
+                        {%for error in form.non_field_errors %}
+                            <span><p>{{ error|escape}}</p></span>
+                        {%endfor%}
+                    {% endif %}
+                </div> 
+                            
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Validation Example -->
+    <div class="admin-form mw1000 center-block">
+
+        <div class="panel heading-border">
+
+            <div class="panel-body bg-light">
+
+            <form action="" method="POST" enctype="multipart/form-data" >
+            {% csrf_token %}
+                
+                <div class="section-divider mt20 mb40">
+                <b><span> {% if edit %} Por favor, valida los datos del {% else %} Por favor, introduce los datos del  {% endif %}Usuario  </span></b>
+                </div>
+
+                <!-- .section-divider -->
+                <div class="section row">
+
+                    <div class="col-md-8">
+                        <div class="section">
+                            <label class="field prepend-icon append-button file">
+                            <span class="button">Selecciona Imagen de Usuario</span>
+                            <input type="file" class="gui-file" name="image" id="image" onChange="document.getElementById('uploader1').value = this.value;">
+                            <input type="text" class="gui-input" id="uploader1" placeholder="Por favor Selecciona una Imagen">
+                            <label class="field-icon">
+                                <i class="fa fa-upload"></i>
+                            </label>
+                            </label>
+                        </div>
+                    </div>
+                            
+                    <div class="col-md-12">
+                        <div class="section">
+                            <label for="first_name" class="field prepend-icon">
+                            <input type="text" name="first_name" id="id_first_name" class="gui-input" placeholder="Asigna el Nombre del Usuario" required value="{%if edit%} {{form.first_name}} {% endif %}">
+                            <label for="first_name" class="field-icon">
+                                <i class="fa fa-user"></i>
+                            </label>
+                            <p class="text-warning mn">* Dato Requerido</p>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- end section -->
+
+                    <div class="col-md-12">
+                        <div class="section">
+                            <label for="last_name" class="field prepend-icon">
+                            <input type="text" name="last_name" id="id_last_name" class="gui-input" placeholder="Asigna los Apellidos del Usuario " required value="{%if edit%} {{form.last_name}} {% endif %}">
+                            <label for="last_name" class="field-icon">
+                                <i class="fa fa-user"></i>
+                            </label>
+                            <p class="text-warning mn">* Dato Requerido</p>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- end section -->
+
+                    <div class="col-md-12">
+                        <div class="section">
+                            <label for="email" class="field prepend-icon">
+                            <input type="text" name="email" id="id_email" class="gui-input" placeholder="Asigna el Correo del Usuario " required value="{%if edit%} {{form.email}} {% endif %}">
+                            <label for="email" class="field-icon">
+                                <i class="fa fa-envelope"></i>
+                            </label>
+                            <p class="text-warning mn">* Dato Requerido</p>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- end section -->
+
+                    <div class="col-md-12">
+                        <div class="section">
+                            <label for="username" class="field prepend-icon">
+                            <input type="text" name="username" id="id_username" class="gui-input" placeholder="Asigna el Nombre de Usuario del Usuario " required value="{%if edit%} {{form.username}} {% endif %}">
+                            <label for="username" class="field-icon">
+                                <i class="fa fa-user"></i>
+                            </label>
+                            <p class="text-warning mn">* Dato Requerido</p>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- end section -->
+                
+                    <div class="col-md-6">
+                        <div class="section">
+                            <label for="password" class="field prepend-icon">
+                                <input class="form-control" type="password" name="password" id="id_password" placeholder="Asigna la Contraseña del Usuario "required value="{%if edit%} {{form.password}} {% endif %}">
+                                    <ul>
+                                        <li>Su contraseña no puede ser muy similar a su otra información personal.</li>
+                                        <li>Su contraseña es muy corta. Debe contener al menos 8 caracteres.</li>
+                                        <li>Su contraseña no puede ser una contraseña de uso común.</li>
+                                        <li>Su contraseña no puede ser completamente numérica.</li>
+                                    </ul>
+                                <label for="password" class="field-icon">
+                                <i class="fa fa-lock"></i>
+                                </label>
+                                <p class="text-warning mn">* Dato Requerido</p>
+                            </label>
+                        </div>
+                    </div>
+                        <!-- end section -->
+
+                    <div class="col-md-6">
+                        <div class="section">
+                            <label for="ppassword_2" class="field prepend-icon">
+                                <input class="form-control" type="password" name="password_2" id="id_password_2" placeholder="Confirma la Contraseña del Usuario"required value="{%if edit%} {{form.password}} {% endif %}">
+                                <span class="helptext">Para verificar, introduzca la misma contraseña que introdujo antes.</span>
+                                <label for="password_2" class="field-icon">
+                                <i class="fa fa-lock"></i>
+                                </label>
+                                <p class="text-warning mn">* Dato Requerido</p>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- end section -->
+
+
+                    <div class="col-md-12">
+                        <div class="section">
+                            <b><p class="text-primary mn well-sm">Datos de Registro Unico:</p></b>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="section">
+                            <label for="estatura" class="field prepend-icon">
+                            <input type="number" name="estatura" id="id_estatura" class="gui-input" placeholder="Asigna la estatura del Usuario"  value="{%if edit%} {{form.estatura}} {% endif %}">
+                            <label for="estatura" class="field-icon">
+                                <i class="fa fa-user"></i>
+                            </label>
+                            </label>
+                            
+                        </div>
+                    </div>
+                    <!-- end section -->
+              
+                    <div class="col-md-6">
+                        <div class="section">
+                            <label for="peso" class="field prepend-icon">
+                            <input type="number" name="peso" id="id_peso" class="gui-input" placeholder="Asigna el peso del Usuario "  value="{%if edit%} {{form.peso}} {% endif %}">
+                            <label for="rfc" class="field-icon">
+                                <i class="fa fa-user"></i>
+                            </label>
+                            
+                            </label>
+                        </div>
+                    </div>
+                    <!-- end section -->
+                    <div class="col-md-6">
+                        <div class="section">
+                            <label for="grado" class="field prepend-icon">
+                            <input type="text" name="grado" id="id_grado" class="gui-input" placeholder="Escribe el Grado (Academico/Militar) del Usuario"  value="{%if edit%} {{form.grado}} {% endif %}">
+                            <label for="curp" class="field-icon">
+                                <i class="fa fa-user"></i>
+                            </label>
+                            </label>
+                            
+                        </div>
+                    </div>
+                    <!-- end section -->
+                    <div class="col-md-6">
+                        <div class="section">
+                            <label for="curp" class="field prepend-icon">
+                            <input type="text" name="curp" id="id_curp" class="gui-input" placeholder="Asigna el CURP del Usuario"  value="{%if edit%} {{form.curp}} {% endif %}">
+                            <label for="curp" class="field-icon">
+                                <i class="fa fa-credit-card"></i>
+                            </label>
+                            </label>
+                            
+                        </div>
+                    </div>
+                    <!-- end section -->
+              
+                    <div class="col-md-6">
+                        <div class="section">
+                            <label for="rfc" class="field prepend-icon">
+                            <input type="text" name="rfc" id="id_rfc" class="gui-input" placeholder="Asigna el RFC del Usuario "  value="{%if edit%} {{form.rfc}} {% endif %}">
+                            <label for="rfc" class="field-icon">
+                                <i class="fa fa-credit-card"></i>
+                            </label>
+                            
+                            </label>
+                        </div>
+                    </div>
+                    <!-- end section -->
+              
+                    <div class="col-md-6">
+                        <div class="section">
+                            <label for="cedula" class="field prepend-icon">
+                            <input type="text" name="cedula" id="id_cedula" class="gui-input" placeholder="Asigna la Cedula del Usuario "  value="{%if edit%} {{form.cedula}} {% endif %}">
+                            <label for="cedula" class="field-icon">
+                                <i class="fa fa-credit-card"></i>
+                            </label>
+                            
+                            </label>
+                        </div>
+                    </div>
+                    <!-- end section -->
+
+                    <div class="col-md-6">
+                        <div class="section">
+                            <label for="matricula" class="field prepend-icon">
+                            <input type="text" name="matricula" id="id_cedula" class="gui-input" placeholder="Asigna la Matricula del Usuario "  value="{%if edit%} {{form.matricula}} {% endif %}">
+                            <label for="matricula" class="field-icon">
+                                <i class="fa fa-credit-card"></i>
+                            </label>
+                            
+                            </label>
+                        </div>
+                    </div>
+                    <!-- end section -->
+
+
+                    <div class="col-md-12">
+                        <div class="section">
+                            <b><p class="text-primary mn well-sm">Medios de Contacto del Usuario:</p></b>
+                        </div>
+                    </div>
+
+                    <!-- end section -->
+                    <div class="col-md-12">
+                        <div class="section">    
+                            <label for="telefono" class="field prepend-icon">
+                            <input type="tel" name="telefono" id="id_telefono" class="gui-input phone-group" placeholder="Introduce el Nùmero Telefonico Personal del Usuario" required value="{%if edit%} {{form.telefono}} {% endif %}">
+                            <label for="telefono" class="field-icon">
+                                <i class="fa fa-mobile-phone"></i>
+                            </label>
+                            <p class="text-warning mn">* Dato Requerido</p>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- end section -->
+                    <div class="col-md-12">
+                        <div class="section">    
+                            <label for="direccion" class="field prepend-icon">
+                            <input type="text" name="direccion" id="id_direccion" class="gui-input phone-group" placeholder="Introduce la Direccion del Usuarios " required value="{%if edit%} {{form.direccion}} {% endif %}">
+                            <label for="direccion" class="field-icon">
+                                <i class="fa fa-mobile-phone"></i>
+                            </label>
+                            <p class="text-warning mn">* Dato Requerido</p>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- end section -->
+    
+    
+                    <!-- end .section row section -->
+                    
+                    <div class="col-md-12">
+                        <div class="section">
+                            <b><p class="text-primary mn well-sm">Grupos Asignados:</p></b>
+                        </div>
+                    </div>
+
+                    {% if grupos or edit%}
+                    <div class="col-md-2">
+                    <div class="section">
+
+                        <div class="section row">
+                            <div class="col-md-12 pl20 prn">
+                                <div class="section mv15">
+                                    <div class="option-group field">
+                                        <label class="option">
+                                            <table class="table table-striped table-hover"  cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Seleccionar</th>
+                                                        <th>Grupos</th>     
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Seleccionar</th>
+                                                        <th>Grupos</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody> 
+                                
+                                                    {%if edit and form.groups.all %}
+                                                        {% for g in form.groups.all %} 
+                                                        <tr>
+                                                            <td class="">
+                                                                <label class="option">
+                                                                <input type="checkbox" name="groups" id="id_groups" value="{{g.id}}" {% if edit%}checked {%endif%}>
+                                                                <span class="checkbox"></span>
+                                                                </label>
+                                                            </td>
+                                                            <td>{{g.name}}</td>    
+                                                        </tr>
+                                                        {%endfor%}
+                                                    {%elif grupos%}
+                                                        {% for g in grupos %} 
+                                                        <tr>
+                                                            <td class="">
+                                                                <label class="option">
+                                                                <input type="checkbox" name="groups" id="id_groups" value="{{g.id}}">
+                                                                <span class="checkbox"></span>
+                                                                </label>
+                                                            </td>
+                                                            <td>{{g.name}}</td>    
+                                                        </tr>
+                                                        {%endfor%}
+                                                    {%endif%}
+                                
+                                                    {%if GNS %}
+                                                        {% for g in GNS %}      
+                                                        <tr>
+                                                            <td class="">
+                                                                <label class="option">
+                                                                <input type="checkbox" name="groups" id="id_groups" value="{{g.id}}">
+                                                                <span class="checkbox"></span>
+                                                                </label>
+                                                            </td>
+                                                            <td>{{g.name}}</td>    
+                                                        </tr>
+                                                        {%endfor%}
+                                                    {%endif%}
+                                             
+                                                </tbody>
+                                            </table>
+                                        </label>
+                                    </div>
+                                    <!-- end .option-group section -->
+                                </div>
+                                <!-- end section -->
+                            </div>
+                            <!-- end .colm section -->
+                        </div>
+                    </div>
+                    </div>
+
+                    {%endif%}
+                    <!-- end  section -->
+
+                    <div class="section row">
+                        <div class="col-md-12 pl20 prn">
+                            <div class="section mv15">
+                                <div class="option-group field">
+                                    <label class="option">
+                                    <input type="checkbox" name="estado" value="id_estado" checked>
+                                    <span class="checkbox"></span>Usuario Activo?</label> 
+                                </div>
+                                <!-- end .option-group section -->
+                            </div>
+                            <!-- end section -->
+                        </div>
+                        <!-- end .colm section -->
+                    </div>
+
+                </div>  
+
+                <!-- end .form-body section -->
+                <div class="panel-footer text-right">
+                    <button type="submit" class="button btn-primary"><span class="fa fa-save"></span>Guardar</button>
+                    <a href="{% url 'usuarios:usuarios_list' %}" class="btn btn-danger"><span class="fa fa-undo"></span>Cancelar</a>
+                </div>
+                <!-- end .form-footer section -->    
+            </form>
+            </div>
+        </div>
+
+    </div>
+    <!-- end: .admin-form -->
+
+</div>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+
+<style> 
+    /* demo styles */
+    .content-header b,
+    .admin-form .panel.heading-border:before,
+    .admin-form .panel .heading-border:before {
+      transition: all 0.7s ease;
+    }
+    /* responsive demo styles */
+    @media (max-width: 800px) {
+      .admin-form .panel-body { padding: 18px 12px; }
+    }
+</style>
+
+<!-- FileUpload JS -->
+<script src="{% static 'Admin-new/vendor/plugins/fileupload/fileupload.js' %}"></script>
+<script src="{% static 'Admin-new/vendor/plugins/holder/holder.min.js' %}"></script>
+<!-- Tagmanager JS -->
+<script src="{% static 'Admin-new/vendor/plugins/tagsinput/tagsinput.min.js' %}"></script>
+
+{% block js_page-secundario %}
+<script>
+jQuery(document).ready(function() {
+
+        // Demo Code - Form Switcher
+    $('#form-switcher > button').on('click', function() {
+      var btnData = $(this).data('form-layout');
+      var btnActive = $('#form-elements-pane .admin-form.active');
+
+      // Remove any existing animations and then fade current form out
+      btnActive.removeClass('slideInUp').addClass('animated fadeOutRight animated-shorter');
+      // When above exit animation ends remove leftover classes and animate the new form in
+      btnActive.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+        btnActive.removeClass('active fadeOutRight animated-shorter');
+        $('#' + btnData).addClass('active animated slideInUp animated-shorter')
+      });
+    });
+
+    // Cache several DOM elements
+    var pageHeader = $('.content-header').find('b');
+    var adminForm = $('.admin-form');
+    var options = adminForm.find('.option');
+    var switches = adminForm.find('.switch');
+    var buttons = adminForm.find('.button');
+    var Panel = adminForm.find('.panel');
+
+    // Form Skin Switcher
+    $('#skin-switcher a').on('click', function() {
+      var btnData = $(this).data('form-skin');
+
+      $('#skin-switcher a').removeClass('item-active');
+      $(this).addClass('item-active')
+
+      adminForm.each(function(i, e) {
+        var skins = 'theme-primary theme-info theme-success theme-warning theme-danger theme-alert theme-system theme-dark'
+        var panelSkins = 'panel-primary panel-info panel-success panel-warning panel-danger panel-alert panel-system panel-dark'
+        $(e).removeClass(skins).addClass('theme-' + btnData);
+        Panel.removeClass(panelSkins).addClass('panel-' + btnData);
+        pageHeader.removeClass().addClass('text-' + btnData);
+      });
+
+      $(options).each(function(i, e) {
+        if ($(e).hasClass('block')) {
+          $(e).removeClass().addClass('block mt15 option option-' + btnData);
+        } else {
+          $(e).removeClass().addClass('option option-' + btnData);
+        }
+      });
+
+      // var sliders = $('.ui-timepicker-div', adminForm).find('.ui-slider');
+      $('body').find('.ui-slider').each(function(i, e) {
+        $(e).addClass('slider-primary');
+      });
+
+      $(switches).each(function(i, ele) {
+        if ($(ele).hasClass('switch-round')) {
+          if ($(ele).hasClass('block')) {
+            $(ele).removeClass().addClass('block mt15 switch switch-round switch-' + btnData);
+          } else {
+            $(ele).removeClass().addClass('switch switch-round switch-' + btnData);
+          }
+        } else {
+          if ($(ele).hasClass('block')) {
+            $(ele).removeClass().addClass('block mt15 switch switch-' + btnData);
+          } else {
+            $(ele).removeClass().addClass('switch switch-' + btnData);
+          }
+        }
+
+      });
+      buttons.removeClass().addClass('button btn-' + btnData);
+    });
+
+    setTimeout(function() {
+      adminForm.addClass('theme-primary');
+      Panel.addClass('panel-primary');
+      pageHeader.addClass('text-primary');
+
+      $(options).each(function(i, e) {
+        if ($(e).hasClass('block')) {
+          $(e).removeClass().addClass('block mt15 option option-primary');
+        } else {
+          $(e).removeClass().addClass('option option-primary');
+        }
+      });
+
+      // var sliders = $('.ui-timepicker-div', adminForm).find('.ui-slider');
+      $('body').find('.ui-slider').each(function(i, e) {
+        $(e).addClass('slider-primary');
+      });
+
+      $(switches).each(function(i, ele) {
+        if ($(ele).hasClass('switch-round')) {
+          if ($(ele).hasClass('block')) {
+            $(ele).removeClass().addClass('block mt15 switch switch-round switch-primary');
+          } else {
+            $(ele).removeClass().addClass('switch switch-round switch-primary');
+          }
+        } else {
+          if ($(ele).hasClass('block')) {
+            $(ele).removeClass().addClass('block mt15 switch switch-primary');
+          } else {
+            $(ele).removeClass().addClass('switch switch-primary');
+          }
+        }
+      });
+      buttons.removeClass().addClass('button btn-primary');
+    }, 800);
+
+
+});
+</script>
+                    
+{% endblock%}
+
+

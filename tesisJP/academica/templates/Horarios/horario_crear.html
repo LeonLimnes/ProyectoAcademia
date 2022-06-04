@@ -1,0 +1,534 @@
+{% extends 'base/base-admin.html' %}
+
+{% block content %}
+
+  <section id="content" class="table-layout animated fadeIn">
+          <!-- begin: .tray-center -->
+
+
+        <!-- begin: .tray-left -->
+    <aside class="tray tray-left tray290" data-tray-mobile="#content > .tray-center" data-tray-height="match">
+
+      <!-- Demo HTML - Via JS we insert a cloned fullcalendar title -->
+      <div class="fc-title-clone"></div>
+
+      <!-- Demo HTML - Via JS we insert a sync minicalendar -->
+      <div class="section admin-form theme-primary">
+        <div class="inline-mp minimal-mp center-block"></div>
+      </div>
+
+      <h4 class="mt25"> Orden de Recolecciòn
+        <a id="compose-event-btn" href="#calendarEvent" data-effect="mfp-flipInY">
+          <span class="fa fa-plus-square"></span>
+        </a>
+      </h4>
+
+      <hr class="mv15 br-light">
+
+      <div id="external-events" >
+        <h4>Materias</h4>
+
+        <!-- Standard Events -->
+        <div class='fc-event fc-event-primary' data-event="primary">
+          <div class="fc-event-icon">
+            <span class="fa fa-exclamation"></span>
+          </div>
+          <div class="fc-event-desc">
+            <b>Arquitectura de desarollo de sofware</b>Barbaro</div>
+        </div>
+        <div class='fc-event fc-event-info' data-event="info">
+          <div class="fc-event-icon">
+            <span class="fa fa-info"></span>
+          </div>
+          <div class="fc-event-desc">
+            <b>Sistemas computacioneles en ambinete multimedia </b>Zaira Gutierrez</div>
+        </div>
+        <div class='fc-event fc-event-success' data-event="success">
+          <div class="fc-event-icon">
+            <span class="fa fa-check"></span>
+          </div>
+          <div class="fc-event-desc">
+            <b>2:30am - </b>Meeting With Mike</div>
+        </div>
+        <div class='fc-event fc-event-warning' data-event="warning">
+          <div class="fc-event-icon">
+            <span class="fa fa-question"></span>
+          </div>
+          <div class="fc-event-desc">
+            <b>2:30am - </b>Meeting With Mike</div>
+        </div>
+
+        <!-- Reoccuring Events -->
+        <h6 class="mt20"> Reoccuring Events: </h6>
+        <div class='fc-event fc-event-alert event-recurring' data-event="alert">
+          <div class="fc-event-icon">
+            <span class="fa fa-clock-o"></span>
+          </div>
+          <div class="fc-event-desca">
+            <b>2:30am - </b>Meeting With Mike</div>
+        </div>
+        <div class='fc-event fc-event-system event-recurring'data-event="system">
+          <div class="fc-event-icon">   
+            <span class="fa fa-bell-o"></span>
+          </div>
+          <div class="fc-event-desc">
+            <b> - </b>Meeting With Mike</div>
+        </div>
+
+      </div>
+      <p>
+        <input type='checkbox' id='drop-remove' />
+        <label for='drop-remove'>Quitar después de soltar</label>
+      </p>
+
+      <h4 class="mt30"> Labels </h4>
+
+      <hr class="mv15 br-light">
+
+      <ul class="list-group">
+        <li class="list-group-item">
+          <span class="badge badge-primary">14</span>
+          Entertainment
+        </li>
+        <li class="list-group-item">
+          <span class="badge badge-success">9</span>
+          Movies
+        </li>
+        <li class="list-group-item">
+          <span class="badge badge-info">11</span>
+          TV Shows
+        </li>
+        <li class="list-group-item">
+          <span class="badge badge-warning">18</span>
+          Celebs &amp; Gossip
+        </li>
+
+      </ul>
+    </aside>
+    <!-- end: .tray-left -->
+
+
+          <div class="tray tray-center">
+
+          {% if form.errors %}
+          <div class="panel" id="p13" data-panel-color="panel-warning" data-panel-fullscreen="false" data-panel-title="false" data-panel-remove="false" data-panel-collapse="false">
+              <div class="panel-heading">
+                <span class="panel-icon">
+                  <i class="fa fa-exclamation-circle"></i>
+                </span>
+                <span class="panel-title"> Errores en la orden de trabajo</span>
+              </div>
+              <div class="panel-body">
+              <!-- Errores del formulario para los campos de usuario-->
+              
+                  <!-- Errores  de los campos-->
+                  {% for field in form%}
+                      {% if field.errors %}
+                          {%for error in field.errors %}
+                          <p>{{field.name}} : {{ error|escape}} </p>
+                          {%endfor%}
+                      {% endif %}
+                  {% endfor%}
+                  
+                  <!-- Errores que no son de los campos-->
+                  {% if form.non_field_errors %}
+                      {%for error in form.non_field_errors %}
+                          {{ error|escape}}
+                      {%endfor%}
+                  {% endif %}
+              </div>
+            </div>
+          {% endif %}
+
+          <!-- Calendar -->
+          <section id="content" class="table-layout" class="admin-theme fc fc-ltr fc-unthemed">
+          <div id='calendar' class="admin-theme" style="color: white; background-color: rgb(32, 31, 31)"></div>
+          </section>
+        
+
+        </div>
+        <!-- end: .tray-center -->
+  
+    <!-- End: Content -->
+  </section>
+</div>
+
+<!-- Calendar Event Creation Modal/Form -->
+<div class="admin-form theme-primary popup-basic popup-lg mfp-with-anim mfp-hide" id="calendarEvent">
+  <div class="panel">
+    <div class="panel-heading">
+      <span class="panel-title">
+        <i class="fa fa-pencil-square"></i>Nueva Orden de Recolección
+      </span>
+    </div>
+    <!-- end .form-header section -->
+
+    <form role="form" method="POST" id="calendarEventForm">
+      {% csrf_token %}
+      <div class="panel-body p25">
+        <div class="section-divider mt10 mb40">
+          <span>Registro de la Orden de Trabajo</span>
+        </div>
+        <!-- .section-divider -->
+
+        <div class="section row">
+          <div class="col-md-6">
+            <label for="tipoTrabajo" class="field prepend-icon">
+              <input type="text" name="tipoTrabajo" id="id_tipoTrabajo" class="gui-input" required placeholder="Tipo del Trabajo a Realizar">
+              <label for="tipoTrabajo" class="field-icon">
+                <i class="fa fa-flag"></i>
+              </label>
+            </label>
+          </div>
+          <!-- end section -->
+
+          <div class="col-md-6">
+
+            <label for="fechaRecoleccion" class="field prepend-picker-icon">
+                <input type="text" id="id_fechaRecoleccion" name="fechaRecoleccion" class="gui-input" required placeholder="Fecha de Recolección">
+              </label>
+          </div>
+          <!-- end section -->
+        </div>
+        <!-- end .section row section -->
+        </br>
+        <div class="section-divider mt10 mb40">
+            <span>Datos del Paciente</span>
+        </div>
+
+        <div class="section row">
+          <div class="col-md-6">
+            <label for="paciente" class="field prepend-icon">
+              <input type="text" name="paciente" id="id_paciente" class="gui-input" placeholder="Nombre del Paciente">
+              <label for="paciente" class="field-icon">
+                <i class="fa fa-user"></i>
+              </label>
+            </label>
+          </div>
+
+          <div class="col-md-3">
+            <label for="edadPaciente" class="field prepend-icon">
+              <input type="text" name="edadPaciente" id="id_edadPaciente" class="gui-input" placeholder="Edad ">
+              <label for="paciente" class="field-icon">
+                <i class="fa fa-user"></i>
+              </label>
+            </label>
+          </div>
+
+
+          <div class="col-md-3 pl20 prn">
+            <div class="option-group field">
+              <label class="option">
+                <input type="radio" name="sexoPaciente" id="id_sexoPaciente" value="f" checked>
+                <span class="radio"></span>Femenino</label>
+                <label class="option">
+                  <input type="radio" name="sexoPaciente" id="id_sexoPaciente" value="m">
+                  <span class="radio"></span>Masculino</label>
+              <!-- end .option-group section -->
+            </div>
+          </div>
+        </div>
+
+        <!-- end section -->
+        </br>
+        <div class="section-divider mt10 mb40">
+            <span>Detalles de la Orden de Trabajo</span>
+        </div>
+
+        <div class="section row">
+          <div class="col-md-9 pl20 prn">
+            <div class="option-group field">
+              <label>¿Realizar Prueba?</label></br>
+              <label class="option">
+                <input type="radio" name="pruebaTrabajo" id="id_pruebaTrabajo" value="d" checked>
+                <span class="radio"></span>Dientes</label>
+                <label class="option">
+                  <input type="radio" name="pruebaTrabajo" id="id_pruebaTrabajo" value="r" >
+                  <span class="radio"></span>Rodillos</label>
+                <label class="option">
+                  <input type="radio" name="pruebaTrabajo" id="id_pruebaTrabajo" value="m">
+                  <span class="radio"></span>Metal</label>
+                <label class="option">
+                  <input type="radio" name="pruebaTrabajo" id="id_pruebaTrabajo" value="p">
+                  <span class="radio"></span>Porcelana</label>
+                <label class="option">
+                  <input type="radio" name="pruebaTrabajo" id="id_pruebaTrabajo" value="t">
+                  <span class="radio"></span>Terminado</label>
+              <!-- end .option-group section -->
+            </div>
+          </div>
+          <div class="col-md-3 pl20 prn">
+              <div class="option-group field">
+                <label>Antagonista</label></br>
+                <label class="option">
+                  <input type="radio" name="antagonista" id="id_antagonista" value="t" >
+                  <span class="radio"></span>Sí</label>
+                  <label class="option">
+                    <input type="radio" name="antagonista" id="id_antagonista" value="f" checked>
+                    <span class="radio"></span>No</label>
+                <!-- end .option-group section -->
+              </div>
+            </div>
+        </div>
+
+        <div class="section row">
+          
+
+          <div class="col-md-4 pl20 prn">
+            <div class="option-group field">
+              <label>¿Relación de Mordida?</label></br>
+              <label class="option">
+                <input type="radio" name="mordida" id="id_mordida" value="t" >
+                <span class="radio"></span>Sì</label>
+                <label class="option">
+                  <input type="radio" name="mordida" id="id_mordida" value="f" checked >
+                  <span class="radio"></span>No</label>
+              <!-- end .option-group section -->
+            </div>
+          </div>
+
+          <div class="col-md-5 pl20 prn">
+              <div class="option-group field">
+                <label>¿Textura en el Diente?</label></br>
+                <label class="option">
+                  <input type="radio" name="texturaDiente" id="id_texturaDiente" value="l" checked>
+                  <span class="radio"></span>Lisa</label>
+                  <label class="option">
+                    <input type="radio" name="texturaDiente" id="id_texturaDiente" value="s" >
+                    <span class="radio"></span>Semi lisa</label>
+              </div>
+          </div>
+
+          <div class="col-md-3 pl20 prn">
+              <div class="option-group field">
+                <label>¿Mamelones?</label></br>
+                <label class="option">
+                  <input type="radio" name="mamelones" id="id_mamelones" value="t" >
+                  <span class="radio"></span>Sí</label>
+                  <label class="option">
+                    <input type="radio" name="mamelones" id="id_mamelones" value="f" checked >
+                    <span class="radio"></span>No</label>
+              </div>
+            
+          </div>
+        </div>
+
+
+        <div class="col-xs-12 col-sm-12 br-a br-light bg-light dark va-t p10 va-m">
+
+          <div id="dock-content" class="ph20">
+            <div id="dock-image" class="active-content">
+              <div class="dock-item" data-title="Diente">
+                <img class="img-responsive center-block" src= "/media/img/forms/diente.png">
+              </div>
+            </div>
+          </div>
+        </div>  
+
+        <div class="section">
+        <div class="section row">
+          <div class="col-md-6 pl20 prn">
+            <label for="colorDiente" class="field prepend-icon">
+              <input type="text" name="colorDiente" id="id_colorDiente" class="gui-input" placeholder="¿Color del Diente?">
+              <label for="colorDiente" class="field-icon">
+                <i class="fa fa-user"></i>
+              </label>
+            </label>
+          </div>
+
+          <div class="col-md-6 pl20 prn">
+            <label for="colorimetro" class="field prepend-icon">
+              <input type="text" name="colorimetro" id="id_colorimetro" class="gui-input" placeholder="Colorimetro">
+              <label for="colorimetro" class="field-icon">
+                <i class="fa fa-user"></i>
+              </label>
+            </label>
+          </div>
+        </div>
+        </div>
+
+        <div class="section row">
+          <div class="col-md-8 pl20 prn">
+            <div class="option-group field">
+              <label>¿Forma del Diente?</label></br>
+              <label class="option">
+                <input type="radio" name="formaDiente" id="id_formaDiente" value="c" checked>
+                <span class="radio"></span>Cuadrada</label>
+                <label class="option">
+                  <input type="radio" name="formaDiente" id="id_formaDiente" value="o" >
+                  <span class="radio"></span>Ovalada</label>
+                <label class="option">
+                  <input type="radio" name="formaDiente" id="id_formaDiente" value="t" >
+                  <span class="radio"></span>Triangular</label>
+            </div>
+          </div>
+          <div class="col-md-4 pl20 prn">
+              <div class="option-group field">
+                <label>¿Encerado de Diagnostico?</label></br>
+                <label class="option">
+                  <input type="radio" name="enceradoDiag" id="id_enceradoDiag" value="t" checked>
+                  <span class="radio"></span>Sí</label>
+                  <label class="option">
+                    <input type="radio" name="enceradoDiag" id="id_enceradoDiag" value="f" >
+                    <span class="radio"></span>No</label>
+              </div>
+            </div>
+
+        </div>
+
+        <div class="section">
+          <label class="field prepend-icon">
+            <textarea class="gui-textarea" id="id_observacionesTrabajo" name="observacionesTrabajo" placeholder="Descripción a detalle de los elementos deseados para este trabajo"></textarea>
+            <label for="comment" class="field-icon">
+              <i class="fa fa-comments"></i>
+            </label>
+            <span class="input-footer hidden">
+              <strong>Hint:</strong>Don't be negative or off topic! just be awesome...</span>
+          </label>
+        </div>
+        <!-- end section -->
+
+      </div>
+      <!-- end .form-body section -->
+      <div class="panel-footer text-right">
+        <button type="submit" class="button btn-primary">Crear Orden de Trabajo</button>
+      </div>
+      <!-- end .form-footer section -->
+    </form>
+  </div>
+  <!-- end .admin-form section -->
+</div>
+<!-- End: Main -->
+
+
+
+
+{% endblock %}
+
+
+
+
+{% block js_page-principal %}
+<script>
+
+
+var Picker = $('.inline-mp');
+
+document.addEventListener('DOMContentLoaded', function() {
+var containerEl = document.getElementById('external-events');
+    new FullCalendar.Draggable(containerEl, {
+      itemSelector: '.fc-event',
+      eventData: function(eventEl) {
+        return {
+          title: eventEl.innerText.trim()
+        }
+      }
+    });
+  var calendarEl = document.getElementById('calendar');
+
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'timeGridWeek',
+    expandRows: true,
+    nowIndicator: true,
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'timeGridWeek'
+    },
+    locale: 'es',      
+    navLinks: true, // can click day/week names to navigate views
+    editable: true,
+    selectable: true,
+    events:[
+        {%if ordenesTotales %}
+        {%for orden in ordenesTotales%}
+        {
+          title:"{{orden.tipoTrabajo}}",
+          start:'{{orden.fechaRecoleccion }}',
+          end:'{{orden.fechaEntrega}}',
+          className: 'fc-event-primary',
+        },
+        {%endfor%}
+        {%endif%}
+      ],
+    selectMirror: true,
+    select: function(arg) {
+        var hr1 = moment(arg.start,'YYYY-MM-DD HH:mm a').format('YYYY-MM-DD HH:mm');
+        console.log(hr1);
+        $('#id_fechaRecoleccion').val(hr1);
+        $('#compose-event-btn').click();
+    
+
+ //       var title = prompt('Materia:');
+   //     if (title) {
+ ///         calendar.addEvent({
+    ///        title: title,
+       //     start: arg.start,
+         //   end: arg.end,
+        //  })
+        
+        calendar.unselect()
+      },
+      eventClick: function(arg) {
+        if (confirm('¿Está seguro de que desea eliminar este evento?')) {
+          arg.event.remove()
+        }
+      },
+    nowIndicator: true,
+    dayMaxEvents: true, // allow "more" link when too many events
+    droppable: true,
+
+    drop: function(arg) {
+        // is the "remove after drop" checkbox checked?
+        if (document.getElementById('drop-remove').checked) {
+          // if so, remove the element from the "Draggable Events" list
+          arg.draggedEl.parentNode.removeChild(arg.draggedEl);
+        }
+      }
+  });
+
+  calendar.render();
+});
+
+// Init MonthPicker Plugin and Link to Calendar
+Picker.monthpicker({
+      prevText: '<i class="fa fa-chevron-left"></i>',
+      nextText: '<i class="fa fa-chevron-right"></i>',
+      showButtonPanel: false,
+      onSelect: function(selectedDate) {
+        var formatted = moment(selectedDate, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm');
+        Calendar.fullCalendar('gotoDate', formatted)
+      }
+    });
+
+   // Init Calendar Modal via "inline" Magnific Popup
+   $('#compose-event-btn').magnificPopup({
+      removalDelay: 500, //delay removal by X to allow out-animation
+      callbacks: {
+        beforeOpen: function(e) {
+          // we add a class to body indication overlay is active
+          // We can use this to alter any elements such as form popups
+          // that need a higher z-index to properly display in overlays
+          $('body').addClass('mfp-bg-open');
+          this.st.mainClass = this.st.el.attr('data-effect');
+        },
+        afterClose: function(e) {
+          $('body').removeClass('mfp-bg-open');
+        }
+      },
+      midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+    });
+
+</script>
+{% endblock%} 
+
+{% block js_page-secundario %}
+<script>
+jQuery(document).ready(function() {
+
+
+
+});
+</script>
+                        
+{% endblock%}

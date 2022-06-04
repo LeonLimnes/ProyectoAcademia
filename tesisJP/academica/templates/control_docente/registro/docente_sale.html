@@ -1,0 +1,41 @@
+{% extends 'base/base-admin.html' %}
+{% block tituloprincipal %}
+<h1 class="page-header">Salida del docente </h1>
+{% endblock %}
+
+{% block content%}
+
+
+<div class="col-lg-4">
+    <div class="panel panel-red">
+        <div class="panel-heading">
+            Dar salida 
+        </div>
+        <div class="panel-body">
+            <form role="form" method="POST" >
+                {% csrf_token %}
+                
+                <p>Deseas salir de la clase {{obj.Cajon}}? </p>
+                <div class="form-group">
+                    <label>Hora de salida</label>
+                     
+                </div>
+                <!-- {{form.as_p}}-->
+                 <br>                              
+                <button type="submit" class="btn btn-success">Si<i class="fa fa-question-circle"></i>, Salir</button>
+                <a href="{% url 'academica:registro_list' %}" class="btn btn-outline btn-danger"><span class="fa fa-undo"></span>Cancelar</a>
+            </form>
+        </div>
+        <div class="panel-footer">
+            
+        </div>
+    </div>
+    <!-- /.col-lg-4 -->
+</div>
+                            
+
+
+{% endblock %}
+
+{% block js_page %}
+{% endblock %}

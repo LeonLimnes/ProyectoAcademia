@@ -1,0 +1,38 @@
+{% extends 'base/base-admin.html' %}
+
+{% block tituloprincipal %}
+<h1 class="page-header">Eliminar Docente </h1>
+{% endblock %}
+
+{% block content%}
+
+
+<div class="col-lg-4">
+    <div class="panel panel-red">
+        <div class="panel-heading">
+            Eliminacion de Docente
+        </div>
+        <div class="panel-body">
+            <form role="form" method="POST" >
+                {% csrf_token %}
+                
+                <p>Deseas eliminar el Docente {{obj.id}}?</p>
+                <!-- {{form.as_p}}-->
+                 <br>                              
+                <button type="submit" class="btn btn-success">Si<i class="fa fa-question-circle"></i>, Eliminar</button>
+                <a href="{% url 'academica:docente_list'%}" class="btn btn-outline btn-danger"><span class="fa fa-undo"></span>Cancelar</a>
+            </form>
+        </div>
+        <div class="panel-footer">
+            Panel Footer
+        </div>
+    </div>
+    <!-- /.col-lg-4 -->
+</div>
+                            
+
+
+{% endblock %}
+
+{% block js_page %}
+{% endblock %}

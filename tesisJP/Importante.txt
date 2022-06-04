@@ -1,0 +1,41 @@
+-- Iniciar postgres Ubuntu
+sudo pg_ctlcluster 13 main start
+
+--Uso de postgres desde consola
+https://www.digitalocean.com/community/tutorials/como-instalar-y-utilizar-postgresql-en-ubuntu-16-04-es
+
+Cambie a la cuenta postgres en su servidor escribiendo:
+sudo -i -u postgres
+Ahora puede acceder a la consola Postgres inmediatamente escribiendo:
+psql
+
+--Crear ambiente virtual 
+python3 -m venv dental
+--activar ambiente virtual
+source /home/joshua/dental/bin/activate
+
+--instalar django
+pip install django
+
+--instalar psycopg2
+sudo apt-get install python3-psycopg2
+pip install psycopg2-binary
+
+--time zone
+https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+
+--Uso manage.python
+python3 manage.py sin parametros muestra la ayuda
+
+
+--Uso de git
+git init
+--Creacion de git ignore
+https://www.toptal.com/developers/gitignore
+
+
+--Creacion de app en django
+python3 manage.py startapp nombre-app
+
+--creacion de un usuario
+python3 manage.py createsuperuser

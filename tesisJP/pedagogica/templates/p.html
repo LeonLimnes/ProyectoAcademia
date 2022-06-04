@@ -1,0 +1,58 @@
+{% extends 'base/base-admin.html' %}
+
+
+{% block tituloprincipal %}
+<h1 class="page-header">Plan de Estudios </h1>
+{% endblock %}
+
+{% block content%}
+
+<div class="row">
+    <h4>Acciones que desea realizar</h4>
+    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+        <thead>
+            <tr>
+                <th>Crear Nuevo Plan de Estudios</th>
+                <th>Editar Plan de Estudios</th>
+                <th>Eliminar Plan de Estudios</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="odd gradeX">
+                <td>
+                <a  href= "{% url 'pedagogica:plan_new'%}"> <button type="button" class=" btn btn-info btn-circle btn-xl"  title="Agregar Plan"><i class="fa fa-check"></i></a>
+                </td>
+                <td><button type="button" class="btn btn-primary btn-circle btn-xl"><i class="fa fa-list"></i>
+                </button></td>
+                <td><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="fa fa-times"></i>
+                </button></td>
+            </tr>
+            
+        </tbody>
+    </table>
+<div>
+
+
+
+{% endblock %}
+
+<small class="text-danger">
+    {% if form.errors %}
+        <!-- Errores  de los campos-->
+        {% for field in form%}
+            {% if field.errors %}
+                {%for error in field.errors %}
+                {{ error|escape}}
+                {%endfor%}
+            {% endif %}
+        {% endfor%}
+        
+        <!-- Errores que no son de los campos-->
+        {% if form.non_field_errors %}
+            {%for error in form.non_field_errors %}
+                {{ error|escape}}
+            {%endfor%}
+        {% endif %}
+
+    {% endif %}
+</small>

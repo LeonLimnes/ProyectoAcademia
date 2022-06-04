@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+{% block content%}
+<style>
+    @page{
+        size: "A4";
+        margin: 1.0cm 1.5cm 3.5cm 1.5cm;
+        orientation: landscape;
+    }
+    table{
+        border: black .5px solid ;
+        
+        
+    }
+    th, td{
+        padding: 2px 2px; 
+
+    }
+    th{
+        background-color: cyan;
+        font-size: 8px;
+        vertical-align: auto;
+        
+    }
+    td{
+        background-color: lightgoldenrodyellow;
+        font-size: 10px;
+        
+        text-align: center;
+    }
+
+    
+</style>
+<body>
+    <img src ="https://www.gob.mx/cms/uploads/image/file/536750/escudo_emi.png" style="float: left;" width="50" height="50">
+    <img src ="https://i.ytimg.com/vi/Wt8AVUGH8oA/maxresdefault.jpg" style="float: right;" width="100" height="55">
+<h1 style="text-align: center;">{{emi.sd}}</h1>
+
+<p></p>   
+<h1 style="text-align: center;">{{emi.name}}</h1>
+<h1 style="text-align: center;">{{emi.date}}</h1>
+<h1 style="text-align: center;">{{title}}</h1>
+<p></p>
+
+    <table >
+        <thead>
+            <th style="width: 5%;">Id</th>
+            <th style="width: 30%;">Nombre</th>
+            <th style="width: 25%;">Materia</th>
+            <th style="width: 10%;">Horario</th>
+            <th style="width: 10%;">Fecha</th>
+            <th style="width: 10%;">Entrada</th>
+            <th style="width: 10%;">Salida</th>
+        </thead>
+        <tbody>
+            {% for item in obj %}
+            <tr >
+                <td>{{item.id}}</td>
+                <td>{{item.nombre.nombre}} {{item.nombre.apellidoP}} {{item.nombre.apellidoM}}</td>
+                <td>{{item.materia.nombre}} {{item.materia.horaInicio}}  </td>
+                        
+                <td>{%for x in item.materia.idUaHorario.all%}
+                            <ul>
+                                <li>{{x.fecha}} {{ x.horaInicio|time:"H:i"}}  {{ x.horaSalida|time:"H:i"}}</li>
+                            </ul>
+                            {%endfor%}
+                </td>
+                <td>{{item.horae|date:"d/m/Y"}}</td>
+                <td>{{item.horae|date:"H:i:s"}}</td>
+                <td>{{item.horas|date:"H:i:s"}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</body>
+
+    {% endblock %}
+
+</html>

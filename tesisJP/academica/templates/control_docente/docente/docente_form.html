@@ -1,0 +1,120 @@
+{% extends 'base/base-admin.html' %}
+
+{% block tituloprincipal %}
+<h1 class="page-header">{% if obj %} Editar {% else %} Agregar  {% endif %}Docente </h1>
+{% endblock %}
+
+{% block content%}
+
+
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    {% if obj %}
+                        Edita la Informacion para el Docente
+                    {% else %}
+                        Agrega la Informacion para el Docente  
+                    {% endif %}
+                </div>
+                <div class="panel-body">
+                    <img src ="https://us.123rf.com/450wm/sarahdesign/sarahdesign1506/sarahdesign150602450/41010390-bot%C3%B3n-de-la-cruz-icono-agregar.jpg" style="float: right;" width="250" height="250">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form role="form" method="POST" >
+                                {% csrf_token %}
+
+                                <small class="text-danger center">
+                                    {% if form.errors %}
+                                        <!-- Errores  de los campos-->
+                                        {% for field in form%}
+                                            {% if field.errors %}
+                                                {%for error in field.errors %}
+                                                {{field.name}} : {{ error|escape}} <br>
+                                                {%endfor%}
+                                            {% endif %}
+                                        {% endfor%}
+                                        
+                                        <!-- Errores que no son de los campos-->
+                                        {% if form.non_field_errors %}
+                                            {%for error in form.non_field_errors %}
+                                                {{ error|escape}}
+                                            {%endfor%}
+                                        {% endif %}
+                        
+                                    {% endif %}
+                                </small>
+                                <div class="form-group">
+                                    <label>Nombre del Docente</label>
+                                    <input class="form-control" required= "true" placeholder="Introduce el nombre" name="nombre" id="id_nombre" required value="{%if obj%} {{obj.nombre}} {% endif %}">
+                                </div>
+                                
+                                <div class="form-group"> 
+                                    <label>Apellido Paterno</label>
+                                    <input class="form-control" required= "true" placeholder="Introduce el apellido paterno" name="apellidoP" id="id_apellidoP" required value="{%if obj%} {{obj.apellidoP}} {% endif %}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Apellido Materno</label>
+                                    <input class="form-control" required= "true" placeholder="Introduce el apellido materno" name="apellidoM" id="id_apellidoM" required value="{%if obj%} {{obj.apellidoM}} {% endif %}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Cedula Profesional</label>
+                                    <input class="form-control" required= "true" placeholder="Introduce la Cedula Profesional" name="cedulaP" id="id_cedulaP" required value="{%if obj%} {{obj.rfc}} {% endif %}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Grado academico</label>
+                                    <select class="form-control" required= "true" name="gradoEstudio" id="id_gradoEstudio" required value="{%if obj%} {{obj.gradoEstudio}} {% endif %}" class="sm-form-control">
+                                    <option value="Licenciado/a">Licenciado/a</option>
+                                    <option value="Maestro/a">Maestro/a</option>
+                                    <option value="Doctor/a">Doctor/a</option>
+                                    </select> 
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Unidades De Aprendizaje Disponibles</label>
+                                    <select multiple class="form-control" name="idDocenteUa" id="id_idDocenteUa" multiple>
+                                       {%if obj%}
+                                            {% for caja in obj.idDocenteUa.all%}
+                                            <option value="{{caja.id}}">{{ caja.nombre }}</option>
+                                            {% endfor %}
+                                       {%else%}
+
+                                            {% for caja in UA%}
+                                            <option value="{{caja.id}}">{{ caja.nombre }}</option>
+                                            {% endfor %}
+                                        {%endif%}
+                                    </select>
+                                </div>
+
+                                <!-- {{form.as_p}}-->
+                                 <br>                              
+                                <button type="submit" class="btn btn-success"><span class="fa fa-save"></span>Guardar</button>
+                                <a href="{% url 'academica:docente_list' %}" class="btn btn-danger"><span class="fa fa-undo"></span>Cancelar</a>
+                            </form>
+                        </div>
+                       
+                        <!-- /.col-lg-6 (nested) -->
+                    </div>
+                    <!-- /.row (nested) -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+<!-- /#page-wrapper -->
+
+{% endblock %}
+
+{% block js_page %}
+
+
+
+{% endblock %}
